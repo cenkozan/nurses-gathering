@@ -1,9 +1,8 @@
 {
-  "name": "angular2-full-stack",
+  "name": "nurses-gathering",
   "version": "4.0.0",
-  "license": "MIT",
-  "author": "Davide Violante",
-  "description": "Angular Full Stack project built using Angular 2+, Express, Mongoose and Node.",
+  "author": "Cenk Ozan Kahraman",
+  "description": "We are starting with a basic caretaker planning and billing software",
   "angular-cli": {},
   "scripts": {
     "ng": "ng",

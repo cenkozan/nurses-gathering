@@ -1,8 +1,10 @@
 import * as express from 'express';
 
 import CatCtrl from './controllers/cat';
+import ClientCtrl from './controllers/client';
 import UserCtrl from './controllers/user';
 import Cat from './models/cat';
+import Client from './models/client';
 import User from './models/user';
 
 export default function setRoutes(app) {
@@ -10,7 +12,16 @@ export default function setRoutes(app) {
   const router = express.Router();
 
   const catCtrl = new CatCtrl();
+  const clientCtrl = new ClientCtrl();
   const userCtrl = new UserCtrl();
+
+  // Clients
+  router.route('/clients').get(clientCtrl.getAll);
+  router.route('/clients/count').get(clientCtrl.count);
+  router.route('/client').post(clientCtrl.insert);
+  router.route('/client/:id').get(clientCtrl.get);
+  router.route('/client/:id').put(clientCtrl.update);
+  router.route('/client/:id').delete(clientCtrl.delete);
 
   // Cats
   router.route('/cats').get(catCtrl.getAll);
