@@ -97,10 +97,10 @@ describe('Clients', () => {
     });
 
     it('should delete a user by its id', done => {
-      const user = new Client({ username: 'User', email: 'user@example.com', role: 'user' });
-      user.save((error, newUser) => {
+      const client = new Client({ userName: 'User', email: 'user@example.com' });
+      client.save((error, newClient) => {
         chai.request(app)
-          .delete(`/api/user/${newUser.id}`)
+          .delete(`/api/user/${newClient.id}`)
           .end((err, res) => {
             res.should.have.status(200);
             done();
