@@ -1,7 +1,10 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { RoutingModule } from './routing.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
+import { HttpModule } from '@angular/http';
 import { CatService } from './services/cat.service';
 import { ClientService } from './services/client.service';
 import { UserService } from './services/user.service';
@@ -18,6 +21,9 @@ import { AccountComponent } from './account/account.component';
 import { AdminComponent } from './admin/admin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ClientsComponent } from './clients/clients.component';
+import { InputTextModule, ButtonModule, DataTableModule, InputTextareaModule } from 'primeng/primeng';
+import { DialogModule, SelectButtonModule, InputMaskModule, CalendarModule } from 'primeng/primeng';
+
 
 @NgModule({
   declarations: [
@@ -34,6 +40,17 @@ import { ClientsComponent } from './clients/clients.component';
   ],
   imports: [
     RoutingModule,
+    BrowserModule,
+    HttpModule,
+    InputTextModule,
+    ButtonModule,
+    DataTableModule,
+    InputTextareaModule,
+    DialogModule,
+    InputMaskModule,
+    SelectButtonModule,
+    CalendarModule,
+    BrowserAnimationsModule,
     SharedModule
   ],
   providers: [
