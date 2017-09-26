@@ -3,9 +3,9 @@
 <app-toast [message]="toast.message"></app-toast>
 
 <div class="card" *ngIf="!isLoading">
-  <h4 class="card-header">Current patients ({{clients.length}})</h4>
-  <button type="button" style="margin: 10px 20px;" class="btn" data-toggle="modal" data-target="#addClientModal">
-     <i class="fa fa-plus-circle fa-4x" aria-hidden="true"></i>
+  <h4 class="card-header">Current carers ({{carers.length}})</h4>
+  <button type="button" style="margin: 10px 20px;" class="btn" data-toggle="modal" data-target="#addCarerModal">
+    <i class="fa fa-plus-circle fa-4x" aria-hidden="true"></i>
   </button>
   <div class="card-block">
     <table class="table table-bordered table-striped">
@@ -18,22 +18,22 @@
         <th>Actions</th>
       </tr>
       </thead>
-      <tbody *ngIf="clients.length === 0">
+      <tbody *ngIf="carers.length === 0">
       <tr>
-        <td style="text-align: center;" colspan="5">There are no clients in the system. Add a new client.</td>
+        <td style="text-align: center;" colspan="5">There are no carers in the system. Add a new carer.</td>
       </tr>
       </tbody>
       <tbody *ngIf="!isEditing">
-      <tr *ngFor="let client of clients">
-        <td>{{client.names}}</td>
-        <td>{{client.surname}}</td>
-        <td>{{client.phoneNumber}}</td>
-        <td>{{client.address}}</td>
+      <tr *ngFor="let carer of carers">
+        <td>{{carer.names}}</td>
+        <td>{{carer.surname}}</td>
+        <td>{{carer.phoneNumber}}</td>
+        <td>{{carer.address}}</td>
         <td>
-          <button class="btn btn-sm btn-danger" (click)="deleteClient(client)"><i class="fa fa-trash"></i> Delete</button>
+          <button class="btn btn-sm btn-danger" (click)="deleteCarer(carer)"><i class="fa fa-trash"></i> Delete</button>
         </td>
         <!--<td>-->
-          <!--<button class="btn btn-sm btn-warning" (click)="enableEditing(cat)"><i class="fa fa-pencil"></i> Edit</button> <button class="btn btn-sm btn-danger" (click)="deleteCat(cat)"><i class="fa fa-trash"></i> Delete</button>-->
+        <!--<button class="btn btn-sm btn-warning" (click)="enableEditing(cat)"><i class="fa fa-pencil"></i> Edit</button> <button class="btn btn-sm btn-danger" (click)="deleteCat(cat)"><i class="fa fa-trash"></i> Delete</button>-->
         <!--</td>-->
       </tr>
       </tbody>
@@ -41,15 +41,15 @@
   </div>
 </div>
 
-<div id="addClientModal" class="modal fade" role="dialog">
+<div id="addCarerModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Add New Client</h4>
+        <h4 class="modal-title">Add New Carer</h4>
       </div>
       <div class="modal-body">
-        <form class="form-check" name="addClientForm" novalidate [formGroup]="addClientForm" (ngSubmit)="addClient()">
+        <form class="form-check" name="addCarerForm" novalidate [formGroup]="addCarerForm" (ngSubmit)="addCarer()">
           <div class="form-group">
               <span class="ui-float-label">
                 <input class="form-control" id="names" type="text" size="40" formControlName="names" pInputText>
@@ -86,12 +86,6 @@
           </div>
           <div class="form-group">
               <span class="ui-float-label">
-                <input class="form-control" id="weight" type="number" step="any" min="30" max="200" size="40" formControlName="weight" pInputText>
-                <label for="weight">Weight</label>
-              </span>
-          </div>
-          <div class="form-group">
-              <span class="ui-float-label">
                 <textarea class="form-control" [rows]="5" id="address" type="text" size="40" formControlName="address" pInputTextarea></textarea>
                 <label for="address">Address</label>
               </span>
@@ -100,30 +94,6 @@
               <span class="ui-float-label">
                 <input class="form-control" id="username" type="text" size="40" formControlName="username" pInputText>
                 <label for="username">Username</label>
-              </span>
-          </div>
-          <div class="form-group">
-              <span class="ui-float-label">
-                <textarea class="form-control" [rows]="5" id="conditions" type="text" size="40" formControlName="conditions" pInputTextarea></textarea>
-                <label for="conditions">Conditions</label>
-              </span>
-          </div>
-          <div class="form-group">
-              <span class="ui-float-label">
-                <textarea class="form-control" [rows]="5" id="additionalServices" type="text" size="40" formControlName="additionalServices" pInputTextarea></textarea>
-                <label for="additionalServices">Additional Services</label>
-              </span>
-          </div>
-          <div class="form-group">
-              <span class="ui-float-label">
-                <textarea class="form-control" [rows]="5" id="contacts" type="text" size="40" formControlName="contacts" pInputTextarea></textarea>
-                <label for="contacts">Contacts</label>
-              </span>
-          </div>
-          <div class="form-group">
-              <span class="ui-float-label">
-                <textarea class="form-control" [rows]="5" id="medicines" type="text" size="40" formControlName="medicines" pInputTextarea></textarea>
-                <label for="medicines">Medicines</label>
               </span>
           </div>
           <button pButton class="btn btn-primary" type="submit" label="Add"></button>
@@ -135,4 +105,3 @@
     </div>
   </div>
 </div>
-

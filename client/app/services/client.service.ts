@@ -16,4 +16,20 @@ export class ClientService {
     return this.http.get('/api/clients').map(res => res.json());
   }
 
+  addClient(client): Observable<any> {
+    return this.http.post('/api/client', JSON.stringify(client), this.options);
+  }
+
+  getClient(client): Observable<any> {
+    return this.http.get(`/api/client/${client._id}`).map(res => res.json());
+  }
+
+  editClient(client): Observable<any> {
+    return this.http.put(`/api/client/${client._id}`, JSON.stringify(client), this.options);
+  }
+
+  deleteClient(client): Observable<any> {
+    return this.http.delete(`/api/client/${client._id}`, this.options);
+  }
+
 }

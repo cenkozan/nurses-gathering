@@ -23,6 +23,9 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { ClientsComponent } from './clients/clients.component';
 import { InputTextModule, ButtonModule, DataTableModule, InputTextareaModule } from 'primeng/primeng';
 import { DialogModule, SelectButtonModule, InputMaskModule, CalendarModule } from 'primeng/primeng';
+import { FileUploadModule } from 'primeng/primeng';
+import { CarersComponent } from './carers/carers.component';
+import {CarerService} from "./services/carer.service";
 
 
 @NgModule({
@@ -36,7 +39,8 @@ import { DialogModule, SelectButtonModule, InputMaskModule, CalendarModule } fro
     AccountComponent,
     AdminComponent,
     NotFoundComponent,
-    ClientsComponent
+    ClientsComponent,
+    CarersComponent
   ],
   imports: [
     RoutingModule,
@@ -51,7 +55,8 @@ import { DialogModule, SelectButtonModule, InputMaskModule, CalendarModule } fro
     SelectButtonModule,
     CalendarModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    FileUploadModule
   ],
   providers: [
     AuthService,
@@ -59,6 +64,7 @@ import { DialogModule, SelectButtonModule, InputMaskModule, CalendarModule } fro
     AuthGuardAdmin,
     CatService,
     ClientService,
+    CarerService,
     UserService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

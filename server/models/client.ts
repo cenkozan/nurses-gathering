@@ -15,8 +15,10 @@ const clientSchema = new mongoose.Schema({
   userName: String,
   conditions: String,
   additionalServices: String,
-  contacts: [{name: String, phone: Number, address: String}],
-  medicines: [{name: String, dose: String}]
+  contacts: String,
+  medicines: String
+  // contacts: [{name: String, phone: Number, address: String}],
+  // medicines: [{name: String, dose: String}],
 });
 
 const Client = mongoose.model('Client', clientSchema);

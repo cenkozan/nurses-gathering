@@ -87,7 +87,7 @@ describe('Clients', () => {
         medicines: [{name: 'Prozac', dose: 'Every 8 hours after meal'}]});
       client.save((error, newClient) => {
         chai.request(app)
-          .put(`/api/user/${newClient.id}`)
+          .put(`/api/client/${newClient.id}`)
           .send({ username: 'User 2' })
           .end((err, res) => {
             res.should.have.status(200);
@@ -100,7 +100,7 @@ describe('Clients', () => {
       const client = new Client({ userName: 'User', email: 'user@example.com' });
       client.save((error, newClient) => {
         chai.request(app)
-          .delete(`/api/user/${newClient.id}`)
+          .delete(`/api/client/${newClient.id}`)
           .end((err, res) => {
             res.should.have.status(200);
             done();

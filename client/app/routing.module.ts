@@ -13,11 +13,13 @@ import { NotFoundComponent } from './not-found/not-found.component';
 
 import { AuthGuardLogin } from './services/auth-guard-login.service';
 import { AuthGuardAdmin } from './services/auth-guard-admin.service';
+import { CarersComponent } from './carers/carers.component';
 
 const routes: Routes = [
   { path: '', component: AboutComponent },
   { path: 'cats', component: CatsComponent },
   { path: 'clients', component: ClientsComponent , canActivate: [AuthGuardLogin]},
+  { path: 'carers', component: CarersComponent , canActivate: [AuthGuardLogin]},
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },

@@ -3,9 +3,7 @@ import * as express from 'express';
 import CatCtrl from './controllers/cat';
 import ClientCtrl from './controllers/client';
 import UserCtrl from './controllers/user';
-import Cat from './models/cat';
-import Client from './models/client';
-import User from './models/user';
+import CarerCtrl from './controllers/carer';
 
 export default function setRoutes(app) {
 
@@ -13,6 +11,7 @@ export default function setRoutes(app) {
 
   const catCtrl = new CatCtrl();
   const clientCtrl = new ClientCtrl();
+  const carerCtrl = new CarerCtrl();
   const userCtrl = new UserCtrl();
 
   // Clients
@@ -22,6 +21,14 @@ export default function setRoutes(app) {
   router.route('/client/:id').get(clientCtrl.get);
   router.route('/client/:id').put(clientCtrl.update);
   router.route('/client/:id').delete(clientCtrl.delete);
+
+  // Carers
+  router.route('/carers').get(carerCtrl.getAll);
+  router.route('/carers/count').get(carerCtrl.count);
+  router.route('/carer').post(carerCtrl.insert);
+  router.route('/carer/:id').get(carerCtrl.get);
+  router.route('/carer/:id').put(carerCtrl.update);
+  router.route('/carer/:id').delete(carerCtrl.delete);
 
   // Cats
   router.route('/cats').get(catCtrl.getAll);
