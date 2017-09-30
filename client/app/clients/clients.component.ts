@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-
+import {Component, OnInit} from '@angular/core';
+import {ClientService} from '../services/client.service';
+import {ToastComponent} from '../shared/toast/toast.component';
 import {SelectItem} from 'primeng/primeng';
-
-import { ClientService } from '../services/client.service';
-import { ToastComponent } from '../shared/toast/toast.component';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Http} from '@angular/http';
+import {Client} from '../data-model';
 
 @Component({
   selector: 'app-clients',
@@ -14,27 +13,27 @@ import { ToastComponent } from '../shared/toast/toast.component';
 })
 export class ClientsComponent implements OnInit {
 
-  genders: SelectItem[];
   client = {};
   clients = [];
   isLoading = true;
+
   isEditing = false;
   isAdding = false;
 
+  genders: SelectItem[];
+
+  editClientForm: FormGroup;
   addClientForm: FormGroup;
+
   names = new FormControl('');
   surname = new FormControl('');
   phoneNumber = new FormControl('');
   email = new FormControl('', Validators.email);
   gender = new FormControl('');
   dob = new FormControl('');
-  weight = new FormControl('');
   address = new FormControl('');
   userName = new FormControl('');
-  conditions = new FormControl('');
-  additionalServices = new FormControl('');
-  contacts = new FormControl('');
-  medicines = new FormControl('');
+  services = new FormControl('');
 
   constructor(private clientService: ClientService,
               private formBuilder: FormBuilder,
@@ -55,13 +54,9 @@ export class ClientsComponent implements OnInit {
       email: this.email,
       gender: this.gender,
       dob: this.dob,
-      weight: this.weight,
       address: this.address,
       username: this.userName,
-      conditions: this.conditions,
-      additionalServices: this.additionalServices,
-      contacts: this.contacts,
-      medicines: this.medicines
+      services: this.services,
     });
   }
 
@@ -73,16 +68,9 @@ export class ClientsComponent implements OnInit {
     );
   }
 
-  addClient() {
-    this.clientService.addClient(this.addClientForm.value).subscribe(
-      res => {
-        const newClient = res.json();
-        this.clients.push(newClient);
-        this.addClientForm.reset();
-        this.toast.setMessage('Client added successfully.', 'success');
-      },
-      error => console.log(error)
-    );
+  enableEditing(client) {
+    this.isEditing = true;
+    this.client = client;
   }
 
   deleteClient(client) {
@@ -97,4 +85,35 @@ export class ClientsComponent implements OnInit {
       );
     }
   }
+
+  cancelEditing() {
+    this.isEditing = false;
+    this.client = new Client();
+    this.toast.setMessage('Client editing cancelled.', 'warning');
+    // reload the clients to reset the editing
+    this.getClients();
+  }
+
+  editClient(client) {
+    this.clientService.editClient(this.addClientForm.value).subscribe(
+      res => {
+        this.client = client;
+        this.editClientForm.reset();
+        this.toast.setMessage('Client edited successfully.', 'success');
+      },
+      error => console.log(error)
+    );
+  }
+
+  addClient() {
+    this.clientService.addClient(this.addClientForm.value).subscribe(
+      res => {
+        const newClient = res.json();
+        this.addClientForm.reset();
+        this.toast.setMessage('Client added successfully.', 'success');
+      },
+      error => console.log(error)
+    );
+  }
+
 }
