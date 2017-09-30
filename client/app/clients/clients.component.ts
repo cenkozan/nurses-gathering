@@ -18,7 +18,6 @@ export class ClientsComponent implements OnInit {
   isLoading = true;
 
   isEditing = false;
-  isAdding = false;
 
   genders: SelectItem[];
 
@@ -55,7 +54,7 @@ export class ClientsComponent implements OnInit {
       gender: this.gender,
       dob: this.dob,
       address: this.address,
-      username: this.userName,
+      userName: this.userName,
       services: this.services,
     });
   }
@@ -95,10 +94,10 @@ export class ClientsComponent implements OnInit {
   }
 
   editClient(client) {
-    this.clientService.editClient(this.addClientForm.value).subscribe(
+    this.clientService.editClient(client).subscribe(
       res => {
+        this.isEditing = false;
         this.client = client;
-        this.editClientForm.reset();
         this.toast.setMessage('Client edited successfully.', 'success');
       },
       error => console.log(error)
@@ -109,6 +108,7 @@ export class ClientsComponent implements OnInit {
     this.clientService.addClient(this.addClientForm.value).subscribe(
       res => {
         const newClient = res.json();
+        this.clients.push(newClient);
         this.addClientForm.reset();
         this.toast.setMessage('Client added successfully.', 'success');
       },

@@ -19,7 +19,6 @@ export class CarersComponent implements OnInit {
   carers = [];
   isLoading = true;
   isEditing = false;
-  isAdding = false;
 
   addCarerForm: FormGroup;
   names = new FormControl('');
@@ -51,7 +50,7 @@ export class CarersComponent implements OnInit {
       gender: this.gender,
       dob: this.dob,
       address: this.address,
-      username: this.userName,
+      userName: this.userName,
     });
   }
 
@@ -75,6 +74,30 @@ export class CarersComponent implements OnInit {
     );
   }
 
+  enableEditing(carer) {
+    this.isEditing = true;
+    this.carer = carer;
+  }
+
+  cancelEditing() {
+    this.isEditing = false;
+    this.carer = {};
+    this.toast.setMessage('Carer editing cancelled.', 'warning');
+    // reload the carers to reset the editing
+    this.getCarers();
+  }
+
+  editCarer(carer) {
+    this.carerService.editCarer(carer).subscribe(
+      res => {
+        this.isEditing = false;
+        this.carer = carer;
+        this.toast.setMessage('Carer edited successfully.', 'success');
+      },
+      error => console.log(error)
+    );
+  }
+
   deleteCarer(carer) {
     if (window.confirm('Are you sure you want to permanently delete this item?')) {
       this.carerService.deleteCarer(carer).subscribe(
@@ -87,4 +110,5 @@ export class CarersComponent implements OnInit {
       );
     }
   }
+
 }

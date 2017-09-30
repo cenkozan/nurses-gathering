@@ -35,7 +35,7 @@
         <td>{{client.phoneNumber}}</td>
         <td>{{client.email}}</td>
         <td>{{client.gender}}</td>
-        <td>{{client.dob}}</td>
+        <td>{{client.dob | date: 'dd MMM yyyy'}}</td>
         <td>{{client.address}}</td>
         <td>{{client.userName}}</td>
         <td>{{client.services}}</td>
@@ -46,16 +46,31 @@
       </tbody>
       <tbody *ngIf="isEditing">
       <tr>
-        <td colspan="4">
+        <td colspan="10">
           <form class="form-inline" #form="ngForm" (ngSubmit)="editClient(client)" style="display:inline">
             <div class="form-group">
-              <input class="form-control" type="text" name="name" [(ngModel)]="client.names" placeholder="Name" required>
+              <input class="form-control" type="text" name="name" [(ngModel)]="client.names" placeholder="Names">
             </div>
             <div class="form-group">
-              <input class="form-control" type="number" name="age" [(ngModel)]="client.surname" placeholder="Age" min="0" required>
+              <input class="form-control" type="text" name="surname" [(ngModel)]="client.surname" placeholder="Surname">
             </div>
             <div class="form-group">
-              <input class="form-control" type="number" name="weight" [(ngModel)]="client.weight" placeholder="Weight" step="any" min="0" required>
+              <p-inputMask class="form-control" name="phoneNumber" [(ngModel)]="client.phoneNumber" mask="9999-999999" placeholder="Phone Number"></p-inputMask>
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="text" name="email" [(ngModel)]="client.email" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <p-selectButton [options]="genders" class="form-control" name="gender" [(ngModel)]="client.gender" placeholder="Gender"></p-selectButton>
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" [rows]="5" name="address" [(ngModel)]="client.address" type="text" pInputTextarea></textarea>
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="text" name="username" [(ngModel)]="client.userName" placeholder="Username">
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" [rows]="5" name="services" [(ngModel)]="client.services" type="text" pInputTextarea></textarea>
             </div>
             <button class="btn btn-sm btn-primary" type="submit" [disabled]="!form.form.valid"><i class="fa fa-floppy-o"></i> Save</button>
           </form>
@@ -118,7 +133,7 @@
           </div>
           <div class="form-group">
               <span class="ui-float-label">
-                <input class="form-control" id="username" type="text" size="40" formControlName="username" pInputText>
+                <input class="form-control" id="username" type="text" size="40" formControlName="userName" pInputText>
                 <label for="username">Username</label>
               </span>
           </div>

@@ -11,15 +11,9 @@ var clientSchema = new mongoose.Schema({
         enum: ['M', 'F', 'O']
     },
     dob: Date,
-    weight: Number,
     address: String,
     userName: String,
-    conditions: String,
-    additionalServices: String,
-    contacts: String,
-    medicines: String
-    // contacts: [{name: String, phone: Number, address: String}],
-    // medicines: [{name: String, dose: String}],
+    services: String,
 });
 var Client = mongoose.model('Client', clientSchema);
 exports.default = Client;

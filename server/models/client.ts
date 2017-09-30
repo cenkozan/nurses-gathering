@@ -10,13 +10,9 @@ const clientSchema = new mongoose.Schema({
     enum: ['M', 'F', 'O']
   },
   dob: Date,
-  weight: Number,
   address: String,
   userName: String,
-  conditions: String,
-  additionalServices: String,
-  contacts: String,
-  medicines: String
+  services: String,
   // contacts: [{name: String, phone: Number, address: String}],
   // medicines: [{name: String, dose: String}],
 });
