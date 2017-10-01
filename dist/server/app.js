@@ -23,6 +23,7 @@ else {
 }
 var db = mongoose.connection;
 mongoose.Promise = global.Promise;
+mongoose.connection.on('error', function (err) { });
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
     console.log('Connected to MongoDB');

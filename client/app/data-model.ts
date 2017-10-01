@@ -1,26 +1,34 @@
 'use strict';
 
 export class Client {
-  names: String;
-  surname: String;
-  phoneNumber: String;
-  email: String;
-  gender: String;
-  dob: String;
-  address: String;
-  userName: String;
-  services: String;
+  names: string;
+  surname: string;
+  phoneNumber: string;
+  email: string;
+  gender: string;
+  dob: string;
+  address: string;
+  userName: string;
+  services: string;
+}
+
+export class Event {
+  title: string;
+  start: string;
+  end: string;
+  dow: string;
 }
 
 export class Carer {
-  names: String;
-  surname: String;
-  phoneNumber: String;
-  email: String;
+  names: string;
+  surname: string;
+  phoneNumber: string;
+  email: string;
   gender: string;
-  dob: String;
-  address: String;
-  userName: String;
+  events: Event[];
+  dob: string;
+  address: string;
+  userName: string;
 }
 
 // export const gender: ['M', 'F', 'O'];

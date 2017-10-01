@@ -1,0 +1,8 @@
+<app-loading [condition]="isLoading"></app-loading>
+
+<app-toast [message]="toast.message"></app-toast>
+
+<div class="card" *ngIf="!isLoading">
+  <p-dropdown [options]="carers" (onclick)="clicked()" [(ngModel)]="selectedCarer"></p-dropdown>
+  <p-schedule [events]="selectedCarer.events" defaultDate="2017-02-01" [eventLimit]="4" [editable]="true"></p-schedule>
+</div>

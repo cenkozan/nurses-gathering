@@ -11,6 +11,7 @@ var carerSchema = new mongoose.Schema({
         enum: ['M', 'F', 'O']
     },
     dob: Date,
+    events: [{ type: mongoose.Schema.ObjectId, ref: 'Appointment' }],
     address: String,
     userName: String,
 });

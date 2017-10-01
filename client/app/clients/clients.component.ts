@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {ClientService} from '../services/client.service';
-import {ToastComponent} from '../shared/toast/toast.component';
-import {SelectItem} from 'primeng/primeng';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Http} from '@angular/http';
-import {Client} from '../data-model';
+import { Component, OnInit } from '@angular/core';
+import { ClientService } from '../services/client.service';
+import { ToastComponent } from '../shared/toast/toast.component';
+import { SelectItem } from 'primeng/primeng';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Http } from '@angular/http';
+import { Client } from '../data-model';
 
 @Component({
   selector: 'app-clients',
