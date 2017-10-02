@@ -65,7 +65,7 @@ describe('Clients', function () {
                     res.body.should.be.a('object');
                     res.body.should.have.property('userName');
                     res.body.should.have.property('email');
-                    res.body.should.have.property('additionalServices');
+                    res.body.should.have.property('address');
                     res.body.should.have.property('_id').eql(newClient.id);
                     done();
                 });

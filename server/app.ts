@@ -26,6 +26,8 @@ if (process.env.NODE_ENV === 'test') {
 const db = mongoose.connection;
 (<any>mongoose).Promise = global.Promise;
 
+mongoose.connection.on('error', function(err){});
+
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
   console.log('Connected to MongoDB');

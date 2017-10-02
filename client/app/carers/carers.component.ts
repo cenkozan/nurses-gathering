@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
-import {SelectItem} from 'primeng/primeng';
+import { SelectItem } from 'primeng/primeng';
 
 import { CarerService } from '../services/carer.service';
 import { ToastComponent } from '../shared/toast/toast.component';
@@ -12,6 +12,7 @@ import { ToastComponent } from '../shared/toast/toast.component';
   templateUrl: './carers.component.html',
   styleUrls: ['./carers.component.scss']
 })
+
 export class CarersComponent implements OnInit {
 
   genders: SelectItem[];

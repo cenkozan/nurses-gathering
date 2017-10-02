@@ -18,6 +18,13 @@ var CarerCtrl = (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.model = carer_1.default;
         return _this;
+        // get = (req, res) => {
+        //   this.model.findOne({ _id: req.params.id }).populate('events') (err, obj) => {
+        //     if (err) { return console.error(err); }
+        //     res.json(obj);
+        //   });
+        //     // }).populate('');
+        // }
     }
     return CarerCtrl;
 }(base_1.default));
