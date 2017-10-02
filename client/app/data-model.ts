@@ -31,4 +31,12 @@ export class Carer {
   userName: string;
 }
 
+export class MyEvent {
+  id: number;
+  title: string;
+  start: string;
+  end: string;
+  allDay: boolean = true;
+}
+
 // export const gender: ['M', 'F', 'O'];

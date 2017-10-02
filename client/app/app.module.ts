@@ -23,7 +23,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { ClientsComponent } from './clients/clients.component';
 import { InputTextModule, ButtonModule, DataTableModule, InputTextareaModule } from 'primeng/primeng';
 import { DialogModule, SelectButtonModule, InputMaskModule, CalendarModule } from 'primeng/primeng';
-import { ScheduleModule } from 'primeng/primeng';
+import { ScheduleModule, DropdownModule } from 'primeng/primeng';
 import { FileUploadModule } from 'primeng/primeng';
 import { CarersComponent } from './carers/carers.component';
 import { CarerService } from './services/carer.service';
@@ -64,7 +64,8 @@ import { BillingComponent } from './billing/billing.component';
     BrowserAnimationsModule,
     SharedModule,
     FileUploadModule,
-    ScheduleModule
+    ScheduleModule,
+    DropdownModule
   ],
   providers: [
     AuthService,
