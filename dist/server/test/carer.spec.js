@@ -35,7 +35,9 @@ describe('Carers', function () {
         });
         it('should create new carer', function (done) {
             var carer = new carer_1.default({ names: 'Dave', surname: 'David', gender: 'M', dob: '14 June 1949',
-                email: 'cokahraman@hotmail.com', phoneNumber: '7777777777', address: '141 NorthWood Way, London, HA6 1RF', userName: 'davedavid' });
+                email: 'cokahraman@hotmail.com', appointments: [{ title: 'x', start: 'deneme', end: 'deneme', dow: 'deneme' }],
+                phoneNumber: '7777777777',
+                address: '141 NorthWood Way, London, HA6 1RF', userName: 'davedavid' });
             chai.request(app_1.app)
                 .post('/api/carer')
                 .send(carer)
@@ -45,10 +47,11 @@ describe('Carers', function () {
                 res.body.should.have.a.property('names');
                 res.body.should.have.a.property('surname');
                 res.body.should.have.a.property('gender');
+                res.body.should.have.a.property('appointments');
                 done();
             });
         });
-        it('should get a user by its id', function (done) {
+        it('should get a carer by its id', function (done) {
             var carer = new carer_1.default({ names: 'Dave', surname: 'David', gender: 'M', dob: '14 June 1949',
                 email: 'cokahraman@hotmail.com', phoneNumber: '7777777777', address: '141 NorthWood Way, London, HA6 1RF', userName: 'davedavid' });
             carer.save(function (error, newCarer) {
@@ -64,7 +67,21 @@ describe('Carers', function () {
                 });
             });
         });
-        it('should update a user by its id', function (done) {
+        it('should save carers appointments', function (done) {
+            var carer = new carer_1.default({ names: 'Dave', surname: 'David', gender: 'M', dob: '14 June 1949',
+                weight: 56, email: 'cokahraman@hotmail.com', address: '141 NorthWood Way, London, HA6 1RF', userName: 'davedavid' });
+            carer.save(function (error, newCarer) {
+                chai.request(app_1.app)
+                    .put("/api/carer/" + newCarer.id)
+                    .send({ appointments: [{ title: 'x', start: 'deneme', end: 'deneme', dow: 'deneme' }] })
+                    .end(function (err, res) {
+                    res.should.have.status(200);
+                    res.body.should.have.property('appointments');
+                    done();
+                });
+            });
+        });
+        it('should update a carer by its id', function (done) {
             var carer = new carer_1.default({ names: 'Dave', surname: 'David', gender: 'M', dob: '14 June 1949',
                 weight: 56, email: 'cokahraman@hotmail.com', address: '141 NorthWood Way, London, HA6 1RF', userName: 'davedavid' });
             carer.save(function (error, newCarer) {
@@ -77,7 +94,7 @@ describe('Carers', function () {
                 });
             });
         });
-        it('should delete a user by its id', function (done) {
+        it('should delete a carer by its id', function (done) {
             var carer = new carer_1.default({ userName: 'User', email: 'user@example.com' });
             carer.save(function (error, newCarer) {
                 chai.request(app_1.app)

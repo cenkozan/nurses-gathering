@@ -41,7 +41,9 @@ describe('Carers', () => {
 
     it('should create new carer', done => {
       const carer = new Carer ({names: 'Dave', surname: 'David', gender: 'M', dob: '14 June 1949',
-        email: 'cokahraman@hotmail.com', phoneNumber: '7777777777', address: '141 NorthWood Way, London, HA6 1RF', userName: 'davedavid' });
+        email: 'cokahraman@hotmail.com', appointments: [{title: 'x', start: 'deneme', end: 'deneme', dow: 'deneme'}],
+        phoneNumber: '7777777777',
+        address: '141 NorthWood Way, London, HA6 1RF', userName: 'davedavid' });
       chai.request(app)
         .post('/api/carer')
         .send(carer)
@@ -51,11 +53,12 @@ describe('Carers', () => {
           res.body.should.have.a.property('names');
           res.body.should.have.a.property('surname');
           res.body.should.have.a.property('gender');
+          res.body.should.have.a.property('appointments');
           done();
         });
     });
 
-    it('should get a user by its id', done => {
+    it('should get a carer by its id', done => {
       const carer = new Carer ({names: 'Dave', surname: 'David', gender: 'M', dob: '14 June 1949',
         email: 'cokahraman@hotmail.com', phoneNumber: '7777777777', address: '141 NorthWood Way, London, HA6 1RF', userName: 'davedavid' });
       carer.save((error, newCarer) => {
@@ -72,7 +75,22 @@ describe('Carers', () => {
       });
     });
 
-    it('should update a user by its id', done => {
+    it('should save carers appointments', done => {
+      const carer = new Carer({names: 'Dave', surname: 'David', gender: 'M', dob: '14 June 1949',
+        weight: 56, email: 'cokahraman@hotmail.com', address: '141 NorthWood Way, London, HA6 1RF', userName: 'davedavid' });
+      carer.save((error, newCarer) => {
+        chai.request(app)
+          .put(`/api/carer/${newCarer.id}`)
+          .send({ appointments: [{title: 'x', start: 'deneme', end: 'deneme', dow: 'deneme'}] })
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.have.property('appointments');
+            done();
+          });
+      });
+    });
+
+    it('should update a carer by its id', done => {
       const carer = new Carer({names: 'Dave', surname: 'David', gender: 'M', dob: '14 June 1949',
         weight: 56, email: 'cokahraman@hotmail.com', address: '141 NorthWood Way, London, HA6 1RF', userName: 'davedavid' });
       carer.save((error, newCarer) => {
@@ -86,7 +104,7 @@ describe('Carers', () => {
       });
     });
 
-    it('should delete a user by its id', done => {
+    it('should delete a carer by its id', done => {
       const carer = new Carer({ userName: 'User', email: 'user@example.com' });
       carer.save((error, newCarer) => {
         chai.request(app)

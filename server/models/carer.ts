@@ -10,9 +10,14 @@ const carerSchema = new mongoose.Schema({
     enum: ['M', 'F', 'O']
   },
   dob: Date,
-  events: [{ type: mongoose.Schema.ObjectId, ref: 'Appointment' }],
+  appointments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Appointment' }],
   address: String,
-  userName: String,
+  userName: String
+});
+
+const JobSchema = new mongoose.Schema({
+  name: String,
+  members: [{type: mongoose.Schema.Types.ObjectId, ref: 'UserModel'}]
 });
 
 const Carer = mongoose.model('Carer', carerSchema);

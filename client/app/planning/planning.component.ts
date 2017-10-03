@@ -76,6 +76,11 @@ export class PlanningComponent implements OnInit {
       this.selectedCarer.appointments.push(this.appointment);
       this.appointment = null;
     }
+    this.carerService.editCarer(this.selectedCarer).subscribe(
+      data => this.carers = data,
+      error => console.log(error),
+      () => this.fillCarerSelectItems()
+    );
     this.dialogVisible = false;
   }
 

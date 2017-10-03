@@ -6,7 +6,7 @@ const AppointmentSchema = new mongoose.Schema({
   title: String,
   start: String,
   end: String,
-  dow: [],
+  dow: String
 });
 
 const Appointment = mongoose.model('Appointment', AppointmentSchema);

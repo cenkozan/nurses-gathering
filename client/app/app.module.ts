@@ -24,13 +24,15 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { ClientsComponent } from './clients/clients.component';
 import { InputTextModule, ButtonModule, DataTableModule, InputTextareaModule } from 'primeng/primeng';
 import { DialogModule, SelectButtonModule, InputMaskModule, CalendarModule } from 'primeng/primeng';
-import { ScheduleModule, DropdownModule, CheckboxModule  } from 'primeng/primeng';
+import { ScheduleModule, DropdownModule, CheckboxModule, GMapModule } from 'primeng/primeng';
+import { ChartModule } from 'primeng/primeng';
 import { FileUploadModule } from 'primeng/primeng';
 import { CarersComponent } from './carers/carers.component';
 import { CarerService } from './services/carer.service';
 import { PlanningComponent } from './planning/planning.component';
 import { ReportsComponent } from './reports/reports.component';
 import { BillingComponent } from './billing/billing.component';
+import { TrackingComponent } from './tracking/tracking.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,8 @@ import { BillingComponent } from './billing/billing.component';
     CarersComponent,
     PlanningComponent,
     ReportsComponent,
-    BillingComponent
+    BillingComponent,
+    TrackingComponent
   ],
   imports: [
     RoutingModule,
@@ -67,7 +70,9 @@ import { BillingComponent } from './billing/billing.component';
     FileUploadModule,
     ScheduleModule,
     DropdownModule,
-    CheckboxModule
+    CheckboxModule,
+    GMapModule,
+    ChartModule
   ],
   providers: [
     AuthService,
