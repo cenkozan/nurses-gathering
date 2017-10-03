@@ -2,6 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { RoutingModule } from './routing.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { HttpModule } from '@angular/http';
@@ -23,14 +24,13 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { ClientsComponent } from './clients/clients.component';
 import { InputTextModule, ButtonModule, DataTableModule, InputTextareaModule } from 'primeng/primeng';
 import { DialogModule, SelectButtonModule, InputMaskModule, CalendarModule } from 'primeng/primeng';
-import { ScheduleModule, DropdownModule } from 'primeng/primeng';
+import { ScheduleModule, DropdownModule, CheckboxModule  } from 'primeng/primeng';
 import { FileUploadModule } from 'primeng/primeng';
 import { CarersComponent } from './carers/carers.component';
 import { CarerService } from './services/carer.service';
 import { PlanningComponent } from './planning/planning.component';
 import { ReportsComponent } from './reports/reports.component';
 import { BillingComponent } from './billing/billing.component';
-
 
 @NgModule({
   declarations: [
@@ -53,6 +53,7 @@ import { BillingComponent } from './billing/billing.component';
     RoutingModule,
     BrowserModule,
     HttpModule,
+    FormsModule,
     InputTextModule,
     ButtonModule,
     DataTableModule,
@@ -65,7 +66,8 @@ import { BillingComponent } from './billing/billing.component';
     SharedModule,
     FileUploadModule,
     ScheduleModule,
-    DropdownModule
+    DropdownModule,
+    CheckboxModule
   ],
   providers: [
     AuthService,
