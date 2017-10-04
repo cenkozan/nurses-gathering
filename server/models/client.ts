@@ -13,8 +13,8 @@ const clientSchema = new mongoose.Schema({
   dob: Date,
   address: String,
   userName: String,
-  services: String,
-  appointments: [{ type: mongot ose.Schema.Types.ObjectId, ref: 'Appointment' }]
+  services: String
+  // appointments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Appointment' }]
   // contacts: [{name: String, phone: Number, address: String}],
   // medicines: [{name: String, dose: String}],
 });

@@ -4,6 +4,7 @@ import CatCtrl from './controllers/cat';
 import ClientCtrl from './controllers/client';
 import UserCtrl from './controllers/user';
 import CarerCtrl from './controllers/carer';
+import AppointmentCtrl from './controllers/appointment';
 
 export default function setRoutes(app) {
 
@@ -13,6 +14,7 @@ export default function setRoutes(app) {
   const clientCtrl = new ClientCtrl();
   const carerCtrl = new CarerCtrl();
   const userCtrl = new UserCtrl();
+  const appointmentCtrl = new AppointmentCtrl();
 
   // Clients
   router.route('/clients').get(clientCtrl.getAll);
@@ -46,6 +48,15 @@ export default function setRoutes(app) {
   router.route('/user/:id').get(userCtrl.get);
   router.route('/user/:id').put(userCtrl.update);
   router.route('/user/:id').delete(userCtrl.delete);
+
+  // Appointment
+  router.route('/appointments').get(appointmentCtrl.getAll);
+  router.route('/appointments/count').get(appointmentCtrl.count);
+  router.route('/appointment').post(appointmentCtrl.insert);
+  router.route('/appointment/:id').get(appointmentCtrl.get);
+  router.route('/appointment/:id').put(appointmentCtrl.update);
+  router.route('/appointment/:id').delete(appointmentCtrl.delete);
+  router.route('/appointment/carer/:carerId').get(appointmentCtrl.getAllByCarer);
 
   // Apply the routes to our application with the prefix /api
   app.use('/api', router);

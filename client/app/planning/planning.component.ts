@@ -6,6 +6,7 @@ import 'fullcalendar';
 import { SelectItem } from 'primeng/primeng';
 import { CarerService } from '../services/carer.service';
 import { Appointment, Carer } from '../data-model';
+import { AppointmentService } from '../services/appointment.service';
 
 @Component({
   selector: 'app-planning',
@@ -21,6 +22,7 @@ export class PlanningComponent implements OnInit {
   header: any;
 
   appointment: Appointment;
+  appointments: Appointment[];
 
   idGen: number = 100;
 
@@ -30,7 +32,8 @@ export class PlanningComponent implements OnInit {
 
   constructor(private carerService: CarerService,
               public toast: ToastComponent,
-              private cd: ChangeDetectorRef) {
+              private cd: ChangeDetectorRef,
+              private appointmentService: AppointmentService) {
   }
 
   ngOnInit() {
@@ -47,6 +50,7 @@ export class PlanningComponent implements OnInit {
     if (!this.selectedCarer.appointments) {
       this.selectedCarer.appointments = [];
     }
+    // this.appointmentService.
   }
 
   getCarers() {

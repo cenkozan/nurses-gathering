@@ -33,6 +33,7 @@ import { PlanningComponent } from './planning/planning.component';
 import { ReportsComponent } from './reports/reports.component';
 import { BillingComponent } from './billing/billing.component';
 import { TrackingComponent } from './tracking/tracking.component';
+import { AppointmentService } from './services/appointment.service';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { TrackingComponent } from './tracking/tracking.component';
     CatService,
     ClientService,
     CarerService,
-    UserService
+    UserService,
+    AppointmentService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

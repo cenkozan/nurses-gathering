@@ -5,7 +5,7 @@
 <div class="card" *ngIf="!isLoading">
   <p-dropdown [options]="carerSelectItems" (onChange)="carersDropDownChanged()" [(ngModel)]="selectedCarer" placeholder="Please select a Carer" [style]="{'width':'250px'}"></p-dropdown>
   <div *ngIf="selectedCarer">
-    <p-schedule [events]='selectedCarer.appointments' [header]="header" [eventLimit]="4" [editable]="true"
+    <p-schedule [events]='appointments' [header]="header" [eventLimit]="4" [editable]="true"
                 (onDayClick)="handleDayClick($event)"></p-schedule>
     <p-dialog header="Event Details" [(visible)]="dialogVisible" [responsive]="true" showEffect="fade" [modal]="false" [contentStyle]="{'overflow':'visible'}"
               [style]="{'overflow':'visible'}" [resizable]="false">
