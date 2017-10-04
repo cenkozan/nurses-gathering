@@ -5,8 +5,9 @@ import 'moment';
 import 'fullcalendar';
 import { SelectItem } from 'primeng/primeng';
 import { CarerService } from '../services/carer.service';
-import { Appointment, Carer } from '../data-model';
+import { Appointment, Carer, Client } from '../data-model';
 import { AppointmentService } from '../services/appointment.service';
+import { ClientService } from '../services/client.service';
 
 @Component({
   selector: 'app-planning',
@@ -18,6 +19,10 @@ export class PlanningComponent implements OnInit {
   carers = [];
   selectedCarer: Carer;
   carerSelectItems: SelectItem[];
+
+  clients = [];
+  selectedClient: Client;
+  clientSelectItems: SelectItem[];
 
   header: any;
 
@@ -31,6 +36,7 @@ export class PlanningComponent implements OnInit {
   isLoading: boolean;
 
   constructor(private carerService: CarerService,
+              private clientService: ClientService,
               public toast: ToastComponent,
               private cd: ChangeDetectorRef,
               private appointmentService: AppointmentService) {
@@ -38,7 +44,9 @@ export class PlanningComponent implements OnInit {
 
   ngOnInit() {
     this.carerSelectItems = [];
+    this.clientSelectItems = [];
     this.getCarers();
+    this.getClients();
     this.header = {
       left: 'prev,next today',
       center: 'title',
@@ -50,7 +58,11 @@ export class PlanningComponent implements OnInit {
     if (!this.selectedCarer.appointments) {
       this.selectedCarer.appointments = [];
     }
-    // this.appointmentService.
+    this.appointmentService.getCarersAppointments(this.selectedCarer).subscribe(
+      data => this.appointments = data,
+      error => console.log(error),
+      () => console.log('appointments: ', this.appointments)
+    );
   }
 
   getCarers() {
@@ -61,45 +73,71 @@ export class PlanningComponent implements OnInit {
     );
   }
 
+  getClients() {
+    this.clientService.getClients().subscribe(
+      data => this.clients = data,
+      error => console.log(error),
+      () => this.fillClientSelectItems()
+    );
+  }
+
   fillCarerSelectItems() {
     this.isLoading = false;
-    this.carers.forEach(carer1 =>
-      this.carerSelectItems.push({label: carer1.userName, value: carer1})
-    );
+    if (this.carers) {
+      this.carers.forEach(carer1 =>
+        this.carerSelectItems.push({label: carer1.userName, value: carer1})
+      );
+    }
+  }
+
+  fillClientSelectItems() {
+    console.log('clients are: ', this.clients);
+    this.isLoading = false;
+    if (this.clients) {
+      this.clients.forEach(client1 =>
+        this.clientSelectItems.push({label: client1.userName, value: client1})
+      );
+    }
   }
 
   saveEvent() {
+    this.appointment.carer = this.selectedCarer._id;
+    this.appointment.client = this.selectedClient._id;
     // update
-    if (this.appointment.id) {
-      const index: number = this.findEventIndexById(this.appointment.id);
+    if (this.appointment._id) {
+      const index: number = this.findEventIndexById(this.appointment._id);
       if (index >= 0) {
-        this.selectedCarer.appointments[index] = this.appointment;
+        this.appointments[index] = this.appointment;
+        this.appointmentService.editAppointment(this.appointment).subscribe(
+          data => {},
+          error => console.log(error),
+        );
       }
     } else {
-      this.appointment.id = this.idGen++;
+      // this.appointment.id = this.idGen++;
       this.selectedCarer.appointments.push(this.appointment);
-      this.appointment = null;
+      this.appointmentService.addAppointment(this.appointment).subscribe(
+        data => {},
+        error => console.log(error),
+        );
     }
-    this.carerService.editCarer(this.selectedCarer).subscribe(
-      data => this.carers = data,
-      error => console.log(error),
-      () => this.fillCarerSelectItems()
-    );
+    this.appointment = null;
     this.dialogVisible = false;
+    this.ngOnInit();
   }
 
   deleteEvent() {
-    const index: number = this.findEventIndexById(this.appointment.id);
+    const index: number = this.findEventIndexById(this.appointment._id);
     if (index >= 0) {
       this.selectedCarer.appointments.splice(index, 1);
     }
     this.dialogVisible = false;
   }
 
-  findEventIndexById(id: number) {
+  findEventIndexById(id: string) {
     let index = -1;
     for (let i = 0; i < this.selectedCarer.appointments.length; i++) {
-      if (id === this.selectedCarer.appointments[i].id) {
+      if (id === this.selectedCarer.appointments[i]._id) {
         index = i;
         break;
       }
@@ -110,6 +148,7 @@ export class PlanningComponent implements OnInit {
   handleDayClick(event) {
     this.appointment = new Appointment();
     this.appointment.start = event.date.format();
+    // this.appointment.
     this.dialogVisible = true;
     // trigger detection manually as somehow only moving the mouse quickly after click triggers the automatic detection
     this.cd.detectChanges();
@@ -127,7 +166,7 @@ export class PlanningComponent implements OnInit {
       end.stripTime();
       this.appointment.end = end.format();
     }
-    this.appointment.id = e.calEvent.id;
+    this.appointment._id = e.calEvent.id;
     this.appointment.start = start.format();
     this.appointment.allDay = e.calEvent.allDay;
     this.dialogVisible = true;

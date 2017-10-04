@@ -1,6 +1,7 @@
 'use strict';
 
 export class Client {
+  _id: string;
   names: string;
   surname: string;
   phoneNumber: string;
@@ -13,15 +14,18 @@ export class Client {
 }
 
 export class Appointment {
-  id: number;
+  _id: string;
   title: string;
   start: string;
   end: string;
   allDay: boolean = false;
   dow: string;
+  carer: string;
+  client: string;
 }
 
 export class Carer {
+  _id: string;
   names: string;
   surname: string;
   phoneNumber: string;

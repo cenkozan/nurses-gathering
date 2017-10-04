@@ -56,7 +56,7 @@ export default function setRoutes(app) {
   router.route('/appointment/:id').get(appointmentCtrl.get);
   router.route('/appointment/:id').put(appointmentCtrl.update);
   router.route('/appointment/:id').delete(appointmentCtrl.delete);
-  router.route('/appointment/carer/:carerId').get(appointmentCtrl.getAllByCarer);
+  router.route('/appointment/carer/:id').get(appointmentCtrl.getAllByCarer);
 
   // Apply the routes to our application with the prefix /api
   app.use('/api', router);

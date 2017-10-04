@@ -32,4 +32,8 @@ export class AppointmentService {
     return this.http.delete(`/api/appointment/${appointment._id}`, this.options);
   }
 
+  getCarersAppointments(carer): Observable<any> {
+    return this.http.get(`/api/appointment/carer/${carer.id}`).map(res => res.json());
+  }
+
 }
