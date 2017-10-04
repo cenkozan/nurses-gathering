@@ -11,9 +11,9 @@ var carerSchema = new mongoose.Schema({
         enum: ['M', 'F', 'O']
     },
     dob: Date,
-    events: [{ type: mongoose.Schema.ObjectId, ref: 'Appointment' }],
+    // appointments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Appointment' }],
     address: String,
-    userName: String,
+    userName: String
 });
 var Carer = mongoose.model('Carer', carerSchema);
 exports.default = Carer;

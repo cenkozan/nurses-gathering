@@ -5,7 +5,9 @@ var AppointmentSchema = new mongoose.Schema({
     title: String,
     start: String,
     end: String,
-    dow: [],
+    dow: String,
+    client: String,
+    carer: String
 });
 var Appointment = mongoose.model('Appointment', AppointmentSchema);
 exports.default = Appointment;

@@ -1,11 +1,13 @@
-import { Component, OnInit  } from '@angular/core';
-import {ToastComponent} from '../shared/toast/toast.component';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ToastComponent } from '../shared/toast/toast.component';
 import 'jquery';
 import 'moment';
 import 'fullcalendar';
 import { SelectItem } from 'primeng/primeng';
-import * as dataModel from '../data-model';
 import { CarerService } from '../services/carer.service';
+import { Appointment, Carer, Client } from '../data-model';
+import { AppointmentService } from '../services/appointment.service';
+import { ClientService } from '../services/client.service';
 
 @Component({
   selector: 'app-planning',
@@ -15,13 +17,17 @@ import { CarerService } from '../services/carer.service';
 export class PlanningComponent implements OnInit {
 
   carers = [];
-  selectedCarer: {};
+  selectedCarer: Carer;
   carerSelectItems: SelectItem[];
+
+  clients = [];
+  selectedClient: Client;
+  clientSelectItems: SelectItem[];
 
   header: any;
 
-  event: dataModel.MyEvent;
-  events: any[];
+  appointment: Appointment;
+  appointments: Appointment[];
 
   idGen: number = 100;
 
@@ -30,46 +36,33 @@ export class PlanningComponent implements OnInit {
   isLoading: boolean;
 
   constructor(private carerService: CarerService,
-    public toast: ToastComponent) { }
+              private clientService: ClientService,
+              public toast: ToastComponent,
+              private cd: ChangeDetectorRef,
+              private appointmentService: AppointmentService) {
+  }
 
   ngOnInit() {
     this.carerSelectItems = [];
+    this.clientSelectItems = [];
     this.getCarers();
+    this.getClients();
     this.header = {
       left: 'prev,next today',
       center: 'title',
       right: 'month,agendaWeek,agendaDay'
     };
-    this.events = [
-      {
-        'title': 'All Day Event',
-        'start': '2016-01-01',
-        'end' : '2016-01-02'
-      },
-      {
-        'title': 'Long Event',
-        'start': '2016-01-07',
-        'end': '2016-01-10'
-      },
-      {
-        'title': 'Repeating Event',
-        'start': '2016-01-09T16:00:00',
-        'end' : '2016-01-02'
-      },
-      {
-        'title': 'Repeating Event',
-        'start': '2016-01-16T16:00:00',
-        'end' : '2016-01-02'
-      },
-      {
-        'title': 'Conference',
-        'start': '2016-01-11',
-        'end': '2016-01-13'
-      }
-    ];
   }
 
   carersDropDownChanged() {
+    if (!this.selectedCarer.appointments) {
+      this.selectedCarer.appointments = [];
+    }
+    this.appointmentService.getCarersAppointments(this.selectedCarer).subscribe(
+      data => this.appointments = data,
+      error => console.log(error),
+      () => console.log('appointments: ', this.appointments)
+    );
   }
 
   getCarers() {
@@ -80,40 +73,71 @@ export class PlanningComponent implements OnInit {
     );
   }
 
-  fillCarerSelectItems() {
-    this.isLoading = false;
-    this.carers.forEach(carer1 =>
-      this.carerSelectItems.push({label: carer1.userName, value: carer1.email})
+  getClients() {
+    this.clientService.getClients().subscribe(
+      data => this.clients = data,
+      error => console.log(error),
+      () => this.fillClientSelectItems()
     );
   }
 
+  fillCarerSelectItems() {
+    this.isLoading = false;
+    if (this.carers) {
+      this.carers.forEach(carer1 =>
+        this.carerSelectItems.push({label: carer1.userName, value: carer1})
+      );
+    }
+  }
+
+  fillClientSelectItems() {
+    console.log('clients are: ', this.clients);
+    this.isLoading = false;
+    if (this.clients) {
+      this.clients.forEach(client1 =>
+        this.clientSelectItems.push({label: client1.userName, value: client1})
+      );
+    }
+  }
+
   saveEvent() {
+    this.appointment.carer = this.selectedCarer._id;
+    this.appointment.client = this.selectedClient._id;
     // update
-    if (this.event.id) {
-      const index: number = this.findEventIndexById(this.event.id);
+    if (this.appointment._id) {
+      const index: number = this.findEventIndexById(this.appointment._id);
       if (index >= 0) {
-        this.events[index] = this.event;
+        this.appointments[index] = this.appointment;
+        this.appointmentService.editAppointment(this.appointment).subscribe(
+          data => {},
+          error => console.log(error),
+        );
       }
     } else {
-      this.event.id = this.idGen++;
-      this.events.push(this.event);
-      this.event = null;
+      // this.appointment.id = this.idGen++;
+      this.selectedCarer.appointments.push(this.appointment);
+      this.appointmentService.addAppointment(this.appointment).subscribe(
+        data => {},
+        error => console.log(error),
+        );
     }
+    this.appointment = null;
     this.dialogVisible = false;
+    this.ngOnInit();
   }
 
   deleteEvent() {
-    const index: number = this.findEventIndexById(this.event.id);
+    const index: number = this.findEventIndexById(this.appointment._id);
     if (index >= 0) {
-      this.events.splice(index, 1);
+      this.selectedCarer.appointments.splice(index, 1);
     }
     this.dialogVisible = false;
   }
 
-  findEventIndexById(id: number) {
+  findEventIndexById(id: string) {
     let index = -1;
-    for (let i = 0; i < this.events.length; i++) {
-      if (id === this.events[i].id) {
+    for (let i = 0; i < this.selectedCarer.appointments.length; i++) {
+      if (id === this.selectedCarer.appointments[i]._id) {
         index = i;
         break;
       }
@@ -122,16 +146,17 @@ export class PlanningComponent implements OnInit {
   }
 
   handleDayClick(event) {
-    this.event = new dataModel.MyEvent();
-    this.event.start = event.date.format();
+    this.appointment = new Appointment();
+    this.appointment.start = event.date.format();
+    // this.appointment.
     this.dialogVisible = true;
     // trigger detection manually as somehow only moving the mouse quickly after click triggers the automatic detection
-    // this.cd.detectChanges();
+    this.cd.detectChanges();
   }
 
   handleEventClick(e) {
-    this.event = new dataModel.MyEvent();
-    this.event.title = e.calEvent.title;
+    this.appointment = new Appointment();
+    this.appointment.title = e.calEvent.title;
     const start = e.calEvent.start;
     const end = e.calEvent.end;
     if (e.view.name === 'month') {
@@ -139,11 +164,11 @@ export class PlanningComponent implements OnInit {
     }
     if (end) {
       end.stripTime();
-      this.event.end = end.format();
+      this.appointment.end = end.format();
     }
-    this.event.id = e.calEvent.id;
-    this.event.start = start.format();
-    this.event.allDay = e.calEvent.allDay;
+    this.appointment._id = e.calEvent.id;
+    this.appointment.start = start.format();
+    this.appointment.allDay = e.calEvent.allDay;
     this.dialogVisible = true;
   }
 

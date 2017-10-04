@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { CatsComponent } from './cats/cats.component';
@@ -17,6 +18,7 @@ import { CarersComponent } from './carers/carers.component';
 import { PlanningComponent } from './planning/planning.component';
 import { ReportsComponent } from './reports/reports.component';
 import { BillingComponent } from './billing/billing.component';
+import { TrackingComponent } from './tracking/tracking.component';
 
 const routes: Routes = [
   { path: '', component: AboutComponent },
@@ -27,6 +29,7 @@ const routes: Routes = [
   { path: 'reports', component: ReportsComponent , canActivate: [AuthGuardLogin]},
   { path: 'billing', component: BillingComponent , canActivate: [AuthGuardLogin]},
   { path: 'register', component: RegisterComponent },
+  { path: 'tracking', component: TrackingComponent },
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'account', component: AccountComponent, canActivate: [AuthGuardLogin] },
