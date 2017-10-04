@@ -33,7 +33,7 @@ export class AppointmentService {
   }
 
   getCarersAppointments(carer): Observable<any> {
-    return this.http.get(`/api/appointment/carer/${carer.id}`).map(res => res.json());
+    return this.http.get(`/api/appointment/carer/${carer._id}`).map(res => res.json());
   }
 
 }
