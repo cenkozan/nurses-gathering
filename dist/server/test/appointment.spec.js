@@ -34,7 +34,7 @@ describe('Appointments', function () {
             });
         });
         it('should create new appointment', function (done) {
-            var appointment = new appointment_1.default({ title: 'joe', start: 'joe', end: 'joe', dow: 'joe', client: 'joe', carer: 'joe' });
+            var appointment = new appointment_1.default({ title: 'joe', start: new Date(), end: new Date(), dow: 'joe', client: 'joe', carer: 'joe' });
             chai.request(app_1.app)
                 .post('/api/appointment')
                 .send(appointment)
@@ -67,7 +67,7 @@ describe('Appointments', function () {
             appointment.save(function (error, newAppointment) {
                 chai.request(app_1.app)
                     .put("/api/appointment/" + newAppointment.id)
-                    .send({ start: 'joe' })
+                    .send({ start: new Date() })
                     .end(function (err, res) {
                     res.should.have.status(200);
                     done();

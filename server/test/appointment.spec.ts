@@ -40,7 +40,7 @@ describe('Appointments', () => {
     });
 
     it('should create new appointment', done => {
-      const appointment = new Appointment ({ title: 'joe', start: 'joe', end: 'joe', dow: 'joe', client: 'joe', carer: 'joe'});
+      const appointment = new Appointment ({ title: 'joe', start: new Date(), end: new Date(), dow: 'joe', client: 'joe', carer: 'joe'});
       chai.request(app)
         .post('/api/appointment')
         .send(appointment)
@@ -75,7 +75,7 @@ describe('Appointments', () => {
       appointment.save((error, newAppointment) => {
         chai.request(app)
           .put(`/api/appointment/${newAppointment.id}`)
-          .send({ start: 'joe' })
+          .send({ start: new Date() })
           .end((err, res) => {
             res.should.have.status(200);
             done();

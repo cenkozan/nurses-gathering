@@ -3,27 +3,34 @@
 <app-toast [message]="toast.message"></app-toast>
 
 <div class="card" *ngIf="!isLoading">
-  <p-dropdown [options]="carerSelectItems" (onChange)="carersDropDownChanged()" [(ngModel)]="selectedCarer" placeholder="Please select a Carer" [style]="{'width':'250px'}"></p-dropdown>
+  <div>
+    <p-dropdown [options]="carerSelectItems" (onChange)="carersDropDownChanged()" [(ngModel)]="selectedCarer"
+                placeholder="Please select a Carer" [style]="{'width':'250px'}"></p-dropdown>
+    <p-dropdown *ngIf="selectedCarer" style="float:right;" [options]="clientSelectItems" [(ngModel)]="selectedClient"
+                placeholder="Please select a Client" [style]="{'width':'250px'}"></p-dropdown>
+  </div>
   <div *ngIf="selectedCarer">
-    <p-schedule [events]='appointments' [header]="header" [eventLimit]="4" [editable]="true" (onDayClick)="handleDayClick($event)"></p-schedule>
-    <p-dialog header="Event Details" [(visible)]="dialogVisible" [responsive]="true" showEffect="fade" [modal]="false" [contentStyle]="{'overflow':'visible'}"
-              [style]="{'overflow':'visible'}" [resizable]="false">
+    <p-schedule [events]='appointments' [header]="header" [eventLimit]="4" [editable]="true"
+                (onDayClick)="handleDayClick($event)" (onEventClick)="handleEventClick($event)">
+    </p-schedule>
+    <p-dialog header="Event Details" [(visible)]="dialogVisible" [responsive]="true" showEffect="fade"
+              [modal]="false" [contentStyle]="{'overflow':'visible'}" [style]="{'overflow':'visible'}" [resizable]="false">
       <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="appointment">
         <div class="ui-grid-row">
           <div class="ui-grid-col-4"><label for="vin">Title</label></div>
-          <div class="ui-grid-col-8"><input pInputText id="title" [(ngModel)]="appointment.title" id="vin" dataType="string"/></div>
+          <div class="ui-grid-col-8"><input pInputText name="title" id="title" [(ngModel)]="appointment.title" id="vin" dataType="string"/></div>
         </div>
         <div class="ui-grid-row">
           <div class="ui-grid-col-4"><label for="start">Start</label></div>
           <div class="ui-grid-col-8">
-            <p-calendar [(ngModel)]="appointment.start" id="start" dateFormat="yy-mm-dd" dataType="string">
+            <p-calendar [(ngModel)]="appointment.start" name="start" id="start" showTime="showTime" hourFormat="24" dateFormat="yy-mm-dd">
             </p-calendar>
           </div>
         </div>
         <div class="ui-grid-row">
           <div class="ui-grid-col-4"><label for="end">End</label></div>
           <div class="ui-grid-col-8">
-            <p-calendar [(ngModel)]="appointment.end" id="end" name="end" dateFormat="yy-mm-dd" dataType="string">
+            <p-calendar [(ngModel)]="appointment.end" id="end" name="end" showTime="showTime" hourFormat="24" dateFormat="yy-mm-dd">
             </p-calendar>
           </div>
         </div>
@@ -38,15 +45,21 @@
           <div class="ui-grid-col-4"><label for="client">Client</label></div>
           <div class="ui-grid-col-8">
             <p-dropdown [options]="clientSelectItems" [(ngModel)]="selectedClient" placeholder="Select a Client"
-                        [style]="{'width':'250px'}" id="client" name="client" required>
+                        [style]="{'width':'175px'}" id="client" name="client">
             </p-dropdown>
+          </div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4"><label for="rate">Rate</label></div>
+          <div class="ui-grid-col-8">
+            <input pInputText [(ngModel)]="appointment.rate" placeholder="Enter a Rate" id="rate" name="rate" required/>
           </div>
         </div>
       </div>
       <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix">
           <button type="button" pButton icon="fa-close" (click)="deleteEvent()" label="Delete" [disabled]="!appointment?.id"></button>
-          <button type="button" pButton icon="fa-check" (click)="saveEvent()" label="Save" [disabled]="!appointment?.start"></button>
+          <button type="submit" pButton icon="fa-check" (click)="saveEvent()" label="Save" [disabled]="!appointment?.start"></button>
         </div>
       </p-footer>
     </p-dialog>

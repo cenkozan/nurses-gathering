@@ -18,4 +18,3 @@ const carerSchema = new mongoose.Schema({
 const Carer = mongoose.model('Carer', carerSchema);
 
 export default Carer;
-

@@ -1,4 +1,5 @@
 'use strict';
+import * as moment from 'moment';
 
 export class Client {
   _id: string;
@@ -16,10 +17,11 @@ export class Client {
 export class Appointment {
   _id: string;
   title: string;
-  start: string;
-  end: string;
+  start: Date;
+  end: Date;
   allDay: boolean = false;
   dow: string;
+  rate: number = 50;
   carer: string;
   client: string;
 }
