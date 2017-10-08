@@ -45,13 +45,24 @@ export class PlanningComponent implements OnInit {
   ngOnInit() {
     this.carerSelectItems = [];
     this.clientSelectItems = [];
-    this.getCarers();
-    this.getClients();
     this.header = {
       left: 'prev,next today',
       center: 'title',
       right: 'month,agendaWeek,agendaDay'
     };
+    this.refreshData();
+  }
+
+  refreshData() {
+    this.getCarers();
+    this.getClients();
+    if (this.selectedCarer) {
+      this.appointmentService.getCarersAppointments(this.selectedCarer).subscribe(
+        data => this.appointments = data,
+        error => console.log(error),
+        () => console.log('appointments: ', this.appointments)
+      );
+    }
   }
 
   carersDropDownChanged() {
@@ -101,21 +112,23 @@ export class PlanningComponent implements OnInit {
   }
 
   saveEvent() {
+    console.log('saving with end date: ', this.appointment.end);
     this.appointment.carer = this.selectedCarer._id;
     this.appointment.client = this.selectedClient._id;
     // update
+    console.log('id is here: ', this.appointment._id);
     if (this.appointment._id) {
-      const index: number = this.findEventIndexById(this.appointment._id);
-      if (index >= 0) {
-        this.appointments[index] = this.appointment;
+      // const index: number = this.findEventIndexById(this.appointment._id);
+      // if (index >= 0) {
+        // this.appointments[index] = this.appointment;
         this.appointmentService.editAppointment(this.appointment).subscribe(
           data => {},
           error => console.log(error),
         );
-      }
+      // }
     } else {
-      // this.appointment.id = this.idGen++;
-      this.selectedCarer.appointments.push(this.appointment);
+      // this.appointment._id = this.idGen++;
+      // this.selectedCarer.appointments.push(this.appointment);
       this.appointmentService.addAppointment(this.appointment).subscribe(
         data => {},
         error => console.log(error),
@@ -123,31 +136,33 @@ export class PlanningComponent implements OnInit {
     }
     this.appointment = null;
     this.dialogVisible = false;
-    this.ngOnInit();
+    this.refreshData();
   }
 
-  deleteEvent() {
-    const index: number = this.findEventIndexById(this.appointment._id);
-    if (index >= 0) {
-      this.selectedCarer.appointments.splice(index, 1);
-    }
-    this.dialogVisible = false;
-  }
+  // deleteEvent() {
+  //   const index: number = this.findEventIndexById(this.appointment._id);
+  //   if (index >= 0) {
+  //     this.selectedCarer.appointments.splice(index, 1);
+  //   }
+  //   this.dialogVisible = false;
+  //   this.refreshData();
+  // }
 
-  findEventIndexById(id: string) {
-    let index = -1;
-    for (let i = 0; i < this.selectedCarer.appointments.length; i++) {
-      if (id === this.selectedCarer.appointments[i]._id) {
-        index = i;
-        break;
-      }
-    }
-    return index;
-  }
+  // findEventIndexById(id: string) {
+  //   let index = -1;
+  //   for (let i = 0; i < this.selectedCarer.appointments.length; i++) {
+  //     if (id === this.selectedCarer.appointments[i]._id) {
+  //       index = i;
+  //       break;
+  //     }
+  //   }
+  //   return index;
+  // }
 
   handleDayClick(event) {
     this.appointment = new Appointment();
-    this.appointment.start = event.date.format();
+    // console.log(event.date);
+    this.appointment.start = new Date(event.date);
     // this.appointment.
     this.dialogVisible = true;
     // trigger detection manually as somehow only moving the mouse quickly after click triggers the automatic detection
@@ -157,19 +172,27 @@ export class PlanningComponent implements OnInit {
   handleEventClick(e) {
     this.appointment = new Appointment();
     this.appointment.title = e.calEvent.title;
-    const start = e.calEvent.start;
-    const end = e.calEvent.end;
-    if (e.view.name === 'month') {
-      start.stripTime();
-    }
-    if (end) {
-      end.stripTime();
-      this.appointment.end = end.format();
-    }
-    this.appointment._id = e.calEvent.id;
-    this.appointment.start = start.format();
+    // const start = e.calEvent.start;
+    // const end = e.calEvent.end;
+    // if (e.view.name === 'month') {
+    //   start.stripTime();
+    // }
+    // if (end) {
+    //   end.stripTime();
+    //   this.appointment.end = end.format();
+    // }
+    this.appointment._id = e.calEvent._id;
+    // this.appointment.start = start.format();
+    console.log('e.calEvent: ', e.calEvent);
+    console.log('e.calEvent.end: ', e.calEvent.end);
+    this.appointment.start = new Date(e.calEvent.start);
+    this.appointment.end = new Date(e.calEvent.end);
     this.appointment.allDay = e.calEvent.allDay;
+    this.appointment.client = e.calEvent.client;
+    this.appointment.carer = e.calEvent.carer;
+    this.appointment.rate = e.calEvent.rate;
     this.dialogVisible = true;
+    this.cd.detectChanges();
   }
 
 }

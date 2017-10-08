@@ -3,11 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var mongoose = require("mongoose");
 var AppointmentSchema = new mongoose.Schema({
     title: String,
-    start: String,
-    end: String,
+    start: Date,
+    end: Date,
+    allDay: Boolean,
     dow: String,
-    client: String,
-    carer: String
+    rate: Number,
+    carer: String,
+    client: String
 });
 var Appointment = mongoose.model('Appointment', AppointmentSchema);
 exports.default = Appointment;
