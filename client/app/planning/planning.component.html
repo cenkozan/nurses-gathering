@@ -20,24 +20,24 @@
           <div class="ui-grid-col-4"><label for="vin">Title</label></div>
           <div class="ui-grid-col-8"><input pInputText name="title" id="title" [(ngModel)]="appointment.title" id="vin" dataType="string"/></div>
         </div>
-        <div class="ui-grid-row">
-          <div class="ui-grid-col-4"><label for="start">Start</label></div>
-          <div class="ui-grid-col-8">
-            <p-calendar [(ngModel)]="appointment.start" name="start" id="start" showTime="showTime" hourFormat="24" dateFormat="yy-mm-dd">
-            </p-calendar>
-          </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="start">Start</label></div>
+        <div class="ui-grid-col-8">
+          <p-calendar [(ngModel)]="appointment.start" name="start" id="start" showTime="showTime" hourFormat="24" dateFormat="yy-mm-dd">
+          </p-calendar>
         </div>
-        <div class="ui-grid-row">
-          <div class="ui-grid-col-4"><label for="end">End</label></div>
-          <div class="ui-grid-col-8">
-            <p-calendar [(ngModel)]="appointment.end" id="end" name="end" showTime="showTime" hourFormat="24" dateFormat="yy-mm-dd">
-            </p-calendar>
-          </div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="end">End</label></div>
+        <div class="ui-grid-col-8">
+          <p-calendar [(ngModel)]="appointment.end" name="end" id="end" showTime="showTime" hourFormat="24" dateFormat="yy-mm-dd">
+          </p-calendar>
         </div>
+      </div>
         <div class="ui-grid-row">
           <div class="ui-grid-col-4"><label for="allDay">All Day</label></div>
           <div class="ui-grid-col-8">
-            <p-checkbox [(ngModel)]="appointment.allDay" id="allDay" name="all" binary="checkbox">
+            <p-checkbox [(ngModel)]="appointment.allDay" (onClick)="allDayClicked()" id="allDay" name="all" binary="checkbox">
             </p-checkbox>
           </div>
         </div>

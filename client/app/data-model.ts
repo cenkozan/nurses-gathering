@@ -38,3 +38,8 @@ export class Carer {
   address: string;
   userName: string;
 }
+
+export class Bill {
+  constructor(private userName: string, private hours: number, private rate: number, private total: number, private expense: boolean) {
+  }
+}

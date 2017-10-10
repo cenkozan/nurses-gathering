@@ -3,5 +3,24 @@
 <app-toast [message]="toast.message"></app-toast>
 
 <div class="card" *ngIf="!isLoading">
-  <p-calendar [{ng></p-calendar>
+  <p-calendar [(ngModel)]="startDate" name="start" id="start" dateFormat="yy-mm-dd">
+  </p-calendar>
+  <p-calendar [(ngModel)]="endDate" name="end" id="end" dateFormat="yy-mm-dd">
+  </p-calendar>
+  <button type="submit" pButton icon="fa-caret-right" (click)="generateBills()" label="Generate Bills"></button>
+  <h2>Clients</h2>
+  <p-dataTable [immutable]="false" [value]="carerBills">
+    <p-column field="userName" header="User Name"></p-column>
+    <p-column field="hours" header="Hours"></p-column>
+    <p-column field="rate" header="Rate"></p-column>
+    <p-column field="total" header="Amount"></p-column>
+  </p-dataTable>
+  <p></p>
+  <h2>Carers</h2>
+  <p-dataTable [immutable]="false" [value]="clientBills">
+    <p-column field="userName" header="User Name"></p-column>
+    <p-column field="hours" header="Hours"></p-column>
+    <p-column field="rate" header="Rate"></p-column>
+    <p-column field="total" header="Amount"></p-column>
+  </p-dataTable>
 </div>
