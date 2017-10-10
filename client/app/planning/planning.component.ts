@@ -35,6 +35,8 @@ export class PlanningComponent implements OnInit {
 
   isLoading: boolean;
 
+  showTime: boolean = false;
+
   constructor(private carerService: CarerService,
               private clientService: ClientService,
               public toast: ToastComponent,
@@ -60,7 +62,6 @@ export class PlanningComponent implements OnInit {
       this.appointmentService.getCarersAppointments(this.selectedCarer).subscribe(
         data => this.appointments = data,
         error => console.log(error),
-        () => console.log('appointments: ', this.appointments)
       );
     }
   }
@@ -72,7 +73,6 @@ export class PlanningComponent implements OnInit {
     this.appointmentService.getCarersAppointments(this.selectedCarer).subscribe(
       data => this.appointments = data,
       error => console.log(error),
-      () => console.log('appointments: ', this.appointments)
     );
   }
 
@@ -102,7 +102,6 @@ export class PlanningComponent implements OnInit {
   }
 
   fillClientSelectItems() {
-    console.log('clients are: ', this.clients);
     this.isLoading = false;
     if (this.clients) {
       this.clients.forEach(client1 =>
@@ -112,11 +111,9 @@ export class PlanningComponent implements OnInit {
   }
 
   saveEvent() {
-    console.log('saving with end date: ', this.appointment.end);
     this.appointment.carer = this.selectedCarer._id;
     this.appointment.client = this.selectedClient._id;
     // update
-    console.log('id is here: ', this.appointment._id);
     if (this.appointment._id) {
       // const index: number = this.findEventIndexById(this.appointment._id);
       // if (index >= 0) {
@@ -139,14 +136,18 @@ export class PlanningComponent implements OnInit {
     this.refreshData();
   }
 
-  // deleteEvent() {
-  //   const index: number = this.findEventIndexById(this.appointment._id);
-  //   if (index >= 0) {
-  //     this.selectedCarer.appointments.splice(index, 1);
-  //   }
-  //   this.dialogVisible = false;
-  //   this.refreshData();
-  // }
+  deleteEvent() {
+    // const index: number = this.findEventIndexById(this.appointment._id);
+    // if (index >= 0) {
+    //   this.selectedCarer.appointments.splice(index, 1);
+    // }
+    this.appointmentService.deleteAppointment(this.appointment).subscribe(
+      done => {},
+      error => console.log(error),
+      );
+    this.dialogVisible = false;
+    this.refreshData();
+  }
 
   // findEventIndexById(id: string) {
   //   let index = -1;
@@ -183,8 +184,6 @@ export class PlanningComponent implements OnInit {
     // }
     this.appointment._id = e.calEvent._id;
     // this.appointment.start = start.format();
-    console.log('e.calEvent: ', e.calEvent);
-    console.log('e.calEvent.end: ', e.calEvent.end);
     this.appointment.start = new Date(e.calEvent.start);
     this.appointment.end = new Date(e.calEvent.end);
     this.appointment.allDay = e.calEvent.allDay;
@@ -193,6 +192,12 @@ export class PlanningComponent implements OnInit {
     this.appointment.rate = e.calEvent.rate;
     this.dialogVisible = true;
     this.cd.detectChanges();
+  }
+
+  allDayClicked() {
+    if (this.appointment.allDay) {
+      this.showTime = false;
+    }
   }
 
 }
