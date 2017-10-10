@@ -147,6 +147,7 @@ export class PlanningComponent implements OnInit {
       );
     this.dialogVisible = false;
     this.refreshData();
+    this.cd.detectChanges();
   }
 
   // findEventIndexById(id: string) {

@@ -58,7 +58,7 @@
       </div>
       <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix">
-          <button type="button" pButton icon="fa-close" (click)="deleteEvent()" label="Delete" [disabled]="!appointment?.id"></button>
+          <button type="button" pButton icon="fa-close" (click)="deleteEvent()" label="Delete" [disabled]="!appointment?._id"></button>
           <button type="submit" pButton icon="fa-check" (click)="saveEvent()" label="Save" [disabled]="!appointment?.start"></button>
         </div>
       </p-footer>
