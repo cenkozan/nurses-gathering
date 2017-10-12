@@ -79,6 +79,58 @@ export class ReportsComponent implements OnInit {
     );
   }
 
+  generateBloodPressureReport() {
+    const systolicData = [];
+    const diastolicData = [];
+    this.selectedClient.bloodPressures.forEach(b => {
+      const x = moment(b.date);
+      systolicData.push({x: b.date, y: b.systolic});
+      diastolicData.push({x: b.date, y: b.diastolic});
+    });
+    this.data = {
+      labels: [new Date(2017, 8), new Date(2017, 9), new Date(2017, 10), new Date(2017, 11)],
+      datasets: [
+        {
+          label: 'Systolic',
+          data: systolicData,
+          borderColor: '#3e95cd'
+        },
+        {
+          label: 'Diastolic',
+          data: diastolicData,
+          borderColor: '#8e5ea2'
+        }
+      ]
+    };
+    this.options = {
+      title: {
+        display: true,
+        text: 'Weight',
+        fontSize: 16
+      },
+      legend: {
+        position: 'bottom'
+      },
+      responsive: true,
+      scales: {
+        xAxes: [{
+          type: 'time',
+          time: {
+            unit: 'month',
+            tooltipFormat: 'lll',
+          }
+        }],
+        yAxes: [{
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'value'
+          }
+        }]
+      }
+    };
+  }
+
   generateWeightReport() {
     const weightData = [];
     this.selectedClient.weights.forEach(t => {
