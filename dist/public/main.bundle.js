@@ -859,7 +859,7 @@ var _a, _b, _c, _d;
 /***/ "../../../../../client/app/clients/clients.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-loading [condition]=\"isLoading\"></app-loading>\n\n<app-toast [message]=\"toast.message\"></app-toast>\n\n<div class=\"card\" *ngIf=\"!isLoading\">\n  <h4 class=\"card-header\">Current patients ({{clients.length}})</h4>\n  <button type=\"button\" style=\"margin: 10px 20px;\" class=\"btn\" data-toggle=\"modal\" data-target=\"#addClientModal\">\n    <i class=\"fa fa-plus-circle fa-4x\" aria-hidden=\"true\"></i>\n  </button>\n  <div class=\"card-block\">\n    <table class=\"table table-bordered table-striped\">\n      <thead class=\"thead-default\">\n      <tr>\n        <th>Names</th>\n        <th>Surname</th>\n        <th>Phone Number</th>\n        <th>Email</th>\n        <th>Gender</th>\n        <th>Date of Birth</th>\n        <th>Address</th>\n        <th>User Name</th>\n        <th>Services</th>\n        <th>Actions</th>\n      </tr>\n      </thead>\n      <tbody *ngIf=\"clients.length === 0\">\n      <tr>\n        <td style=\"text-align: center;\" colspan=\"10\">There are no clients in the system. Add a new client.</td>\n      </tr>\n      </tbody>\n      <tbody *ngIf=\"!isEditing\">\n      <tr *ngFor=\"let client of clients\">\n        <td>{{client.names}}</td>\n        <td>{{client.surname}}</td>\n        <td>{{client.phoneNumber}}</td>\n        <td>{{client.email}}</td>\n        <td>{{client.gender}}</td>\n        <td>{{client.dob | date: 'dd MMM yyyy'}}</td>\n        <td>{{client.address}}</td>\n        <td>{{client.userName}}</td>\n        <td>{{client.services}}</td>\n        <td>\n          <button class=\"btn btn-sm btn-warning\" (click)=\"enableEditing(client)\"><i class=\"fa fa-pencil\"></i> Edit</button>\n          <button class=\"btn btn-sm btn-danger\" (click)=\"deleteClient(client)\"><i class=\"fa fa-trash\"></i> Delete</button>\n          <button class=\"btn btn-sm\" data-toggle=\"modal\" data-target=\"#addTemperatureModal\" (click)=\"enterTemperature(client)\"><i class=\"fa fa-thermometer\"></i> Enter temperature</button>\n        </td>\n      </tr>\n      </tbody>\n      <tbody *ngIf=\"isEditing\">\n      <tr>\n        <td colspan=\"10\">\n          <form class=\"form-inline\" #form=\"ngForm\" (ngSubmit)=\"editClient(client)\" style=\"display:inline\">\n            <div class=\"form-group\">\n              <input class=\"form-control\" type=\"text\" name=\"name\" [(ngModel)]=\"client.names\" placeholder=\"Names\">\n            </div>\n            <div class=\"form-group\">\n              <input class=\"form-control\" type=\"text\" name=\"surname\" [(ngModel)]=\"client.surname\" placeholder=\"Surname\">\n            </div>\n            <div class=\"form-group\">\n              <p-inputMask class=\"form-control\" name=\"phoneNumber\" [(ngModel)]=\"client.phoneNumber\" mask=\"9999-999999\" placeholder=\"Phone Number\"></p-inputMask>\n            </div>\n            <div class=\"form-group\">\n              <input class=\"form-control\" type=\"text\" name=\"email\" [(ngModel)]=\"client.email\" placeholder=\"Email\">\n            </div>\n            <div class=\"form-group\">\n              <p-selectButton [options]=\"genders\" class=\"form-control\" name=\"gender\" [(ngModel)]=\"client.gender\" placeholder=\"Gender\"></p-selectButton>\n            </div>\n            <div class=\"form-group\">\n              <textarea class=\"form-control\" [rows]=\"5\" name=\"address\" [(ngModel)]=\"client.address\" type=\"text\" pInputTextarea></textarea>\n            </div>\n            <div class=\"form-group\">\n              <input class=\"form-control\" type=\"text\" name=\"username\" [(ngModel)]=\"client.userName\" placeholder=\"Username\">\n            </div>\n            <div class=\"form-group\">\n              <textarea class=\"form-control\" [rows]=\"5\" name=\"services\" [(ngModel)]=\"client.services\" type=\"text\" pInputTextarea></textarea>\n            </div>\n            <button class=\"btn btn-sm btn-primary\" type=\"submit\" [disabled]=\"!form.form.valid\"><i class=\"fa fa-floppy-o\"></i> Save</button>\n          </form>\n          <button class=\"btn btn-sm btn-warning\" (click)=\"cancelEditing()\"><i class=\"fa fa-times\"></i> Cancel</button>\n        </td>\n      </tr>\n      </tbody>\n    </table>\n  </div>\n</div>\n\n<div id=\"addTemperatureModal\" class=\"modal fade\" role=\"dialog\">\n  <div class=\"modal-dialog\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\">x</button>\n        <h4 class=\"modal-title\">Enter temperature</h4>\n      </div>\n      <div class=\"modal-body\">\n        <form class=\"form-check\" name=\"addTemperatureForm\" novalidate [formGroup]=\"addTemperatureForm\" (ngSubmit)=\"addClientTemperature(client)\">\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <input class=\"form-control\" id=\"temperature\" size=\"10\" type=\"number\" min=30 max=50 step=1 formControlName=\"temperature\" pInputText>\n                <label for=\"temperature\">Temperature</label>\n              </span>\n          </div>\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <p-calendar id=\"dateOfTakingTemperature\" size=\"40\" name=\"dateOfTakingTemperature\" formControlName=\"dateOfTakingTemperature\"></p-calendar>\n                <label for=\"dateOfTakingTemperature\">Date of Taking Temperature</label>\n              </span>\n          </div>\n          <button pButton class=\"btn btn-primary\" type=\"submit\" label=\"Add\"></button>\n        </form>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>\n\n<div id=\"addClientModal\" class=\"modal fade\" role=\"dialog\">\n  <div class=\"modal-dialog\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n        <h4 class=\"modal-title\">Add New Client</h4>\n      </div>\n      <div class=\"modal-body\">\n        <form class=\"form-check\" name=\"addClientForm\" novalidate [formGroup]=\"addClientForm\" (ngSubmit)=\"addClient()\">\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <input class=\"form-control\" id=\"names\" type=\"text\" size=\"40\" formControlName=\"names\" pInputText>\n                <label for=\"names\">Names</label>\n              </span>\n          </div>\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <input class=\"form-control\" id=\"surname\" type=\"text\" size=\"40\" formControlName=\"surname\" pInputText>\n                <label for=\"surname\">Surname</label>\n              </span>\n          </div>\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <p-inputMask formControlName=\"phoneNumber\" id=\"phoneNumber\" size=\"40\" mask=\"9999-999999\"></p-inputMask>\n                <label for=\"phoneNumber\">Phone Number</label>\n              </span>\n          </div>\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <input class=\"form-control\" id=\"email\" type=\"text\" size=\"40\" formControlName=\"email\" pInputText>\n                <label for=\"email\">Email</label>\n              </span>\n          </div>\n          <div class=\"form-group\">\n            <label for=\"gender\">Gender</label>\n            <p-selectButton [options]=\"genders\" class=\"form-control\" id=\"gender\" type=\"text\" size=\"20\" formControlName=\"gender\"></p-selectButton>\n          </div>\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <p-calendar id=\"dob\" size=\"40\" formControlName=\"dob\" [monthNavigator]=\"true\" [yearNavigator]=\"true\" yearRange=\"1920:2000\"></p-calendar>\n                <label for=\"dob\">Date of Birth</label>\n              </span>\n          </div>\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <textarea class=\"form-control\" [rows]=\"5\" id=\"address\" type=\"text\" size=\"40\" formControlName=\"address\" pInputTextarea></textarea>\n                <label for=\"address\">Address</label>\n              </span>\n          </div>\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <input class=\"form-control\" id=\"username\" type=\"text\" size=\"40\" formControlName=\"userName\" pInputText>\n                <label for=\"username\">Username</label>\n              </span>\n          </div>\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <textarea class=\"form-control\" [rows]=\"5\" id=\"services\" type=\"text\" size=\"40\" formControlName=\"services\" pInputTextarea></textarea>\n                <label for=\"services\">Services</label>\n              </span>\n          </div>\n          <button pButton class=\"btn btn-primary\" type=\"submit\" label=\"Add\"></button>\n        </form>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>\n\n<!--<app-add-edit-client [client]=\"{ names: 'hello', surname: 'there'}\"></app-add-edit-client>-->\n"
+module.exports = "<app-loading [condition]=\"isLoading\"></app-loading>\n\n<app-toast [message]=\"toast.message\"></app-toast>\n\n<div class=\"card\" *ngIf=\"!isLoading\">\n  <h4 class=\"card-header\">Current patients ({{clients.length}})</h4>\n  <button type=\"button\" style=\"margin: 10px 20px;\" class=\"btn\" data-toggle=\"modal\" data-target=\"#addClientModal\">\n    <i class=\"fa fa-plus-circle fa-4x\" aria-hidden=\"true\"></i>\n  </button>\n  <div class=\"card-block\">\n    <table class=\"table table-bordered table-striped\">\n      <thead class=\"thead-default\">\n      <tr>\n        <th>Names</th>\n        <th>Surname</th>\n        <th>Phone Number</th>\n        <th>Email</th>\n        <th>Gender</th>\n        <th>Date of Birth</th>\n        <th>Address</th>\n        <th>User Name</th>\n        <th>Services</th>\n        <th>Actions</th>\n      </tr>\n      </thead>\n      <tbody *ngIf=\"clients.length === 0\">\n      <tr>\n        <td style=\"text-align: center;\" colspan=\"10\">There are no clients in the system. Add a new client.</td>\n      </tr>\n      </tbody>\n      <tbody *ngIf=\"!isEditing\">\n      <tr *ngFor=\"let client of clients\">\n        <td>{{client.names}}</td>\n        <td>{{client.surname}}</td>\n        <td>{{client.phoneNumber}}</td>\n        <td>{{client.email}}</td>\n        <td>{{client.gender}}</td>\n        <td>{{client.dob | date: 'dd MMM yyyy'}}</td>\n        <td>{{client.address}}</td>\n        <td>{{client.userName}}</td>\n        <td>{{client.services}}</td>\n        <td>\n          <button class=\"btn btn-sm btn-warning\" (click)=\"enableEditing(client)\"><i class=\"fa fa-pencil\"></i> Edit</button>\n          <button class=\"btn btn-sm btn-danger\" (click)=\"deleteClient(client)\"><i class=\"fa fa-trash\"></i> Delete</button>\n          <button class=\"btn btn-sm\" data-toggle=\"modal\" data-target=\"#addTemperatureModal\" (click)=\"enterClientRelatedData(client)\"><i class=\"fa fa-thermometer\"></i> Enter temperature</button>\n          <button class=\"btn btn-sm\" data-toggle=\"modal\" data-target=\"#addWeightModal\" (click)=\"enterClientRelatedData(client)\"><i class=\"fa fa-balance-scale\"></i> Enter weight</button>\n        </td>\n      </tr>\n      </tbody>\n      <tbody *ngIf=\"isEditing\">\n      <tr>\n        <td colspan=\"10\">\n          <form class=\"form-inline\" #form=\"ngForm\" (ngSubmit)=\"editClient(client)\" style=\"display:inline\">\n            <div class=\"form-group\">\n              <input class=\"form-control\" type=\"text\" name=\"name\" [(ngModel)]=\"client.names\" placeholder=\"Names\">\n            </div>\n            <div class=\"form-group\">\n              <input class=\"form-control\" type=\"text\" name=\"surname\" [(ngModel)]=\"client.surname\" placeholder=\"Surname\">\n            </div>\n            <div class=\"form-group\">\n              <p-inputMask class=\"form-control\" name=\"phoneNumber\" [(ngModel)]=\"client.phoneNumber\" mask=\"9999-999999\" placeholder=\"Phone Number\"></p-inputMask>\n            </div>\n            <div class=\"form-group\">\n              <input class=\"form-control\" type=\"text\" name=\"email\" [(ngModel)]=\"client.email\" placeholder=\"Email\">\n            </div>\n            <div class=\"form-group\">\n              <p-selectButton [options]=\"genders\" class=\"form-control\" name=\"gender\" [(ngModel)]=\"client.gender\" placeholder=\"Gender\"></p-selectButton>\n            </div>\n            <div class=\"form-group\">\n              <textarea class=\"form-control\" [rows]=\"5\" name=\"address\" [(ngModel)]=\"client.address\" type=\"text\" pInputTextarea></textarea>\n            </div>\n            <div class=\"form-group\">\n              <input class=\"form-control\" type=\"text\" name=\"username\" [(ngModel)]=\"client.userName\" placeholder=\"Username\">\n            </div>\n            <div class=\"form-group\">\n              <textarea class=\"form-control\" [rows]=\"5\" name=\"services\" [(ngModel)]=\"client.services\" type=\"text\" pInputTextarea></textarea>\n            </div>\n            <button class=\"btn btn-sm btn-primary\" type=\"submit\" [disabled]=\"!form.form.valid\"><i class=\"fa fa-floppy-o\"></i> Save</button>\n          </form>\n          <button class=\"btn btn-sm btn-warning\" (click)=\"cancelEditing()\"><i class=\"fa fa-times\"></i> Cancel</button>\n        </td>\n      </tr>\n      </tbody>\n    </table>\n  </div>\n</div>\n\n<div id=\"addWeightModal\" class=\"modal fade\" role=\"dialog\">\n  <div class=\"modal-dialog\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\">x</button>\n        <h4 class=\"modal-title\">Enter Weight</h4>\n      </div>\n      <div class=\"modal-body\">\n        <form class=\"form-check\" name=\"addWeightForm\" novalidate [formGroup]=\"addWeightForm\" (ngSubmit)=\"addClientWeight(client)\">\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <input class=\"form-control\" id=\"weight\" size=\"10\" type=\"number\" formControlName=\"weight\" pInputText>\n                <label for=\"temperature\">Weight</label>\n              </span>\n          </div>\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <p-calendar id=\"dateOfTakingWeight\" size=\"40\" name=\"dateOfTakingWeight\" formControlName=\"dateOfTakingWeight\"></p-calendar>\n                <label for=\"dateOfTakingWeight\">Date of Taking Weight</label>\n              </span>\n          </div>\n          <button pButton class=\"btn btn-primary\" type=\"submit\" label=\"Add\"></button>\n        </form>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>\n\n<div id=\"addTemperatureModal\" class=\"modal fade\" role=\"dialog\">\n  <div class=\"modal-dialog\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\">x</button>\n        <h4 class=\"modal-title\">Enter temperature</h4>\n      </div>\n      <div class=\"modal-body\">\n        <form class=\"form-check\" name=\"addTemperatureForm\" novalidate [formGroup]=\"addTemperatureForm\" (ngSubmit)=\"addClientTemperature(client)\">\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <input class=\"form-control\" id=\"temperature\" size=\"10\" type=\"number\" min=30 max=50 step=1 formControlName=\"temperature\" pInputText>\n                <label for=\"temperature\">Temperature</label>\n              </span>\n          </div>\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <p-calendar id=\"dateOfTakingTemperature\" size=\"40\" name=\"dateOfTakingTemperature\" formControlName=\"dateOfTakingTemperature\"></p-calendar>\n                <label for=\"dateOfTakingTemperature\">Date of Taking Temperature</label>\n              </span>\n          </div>\n          <button pButton class=\"btn btn-primary\" type=\"submit\" label=\"Add\"></button>\n        </form>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>\n\n<div id=\"addClientModal\" class=\"modal fade\" role=\"dialog\">\n  <div class=\"modal-dialog\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n        <h4 class=\"modal-title\">Add New Client</h4>\n      </div>\n      <div class=\"modal-body\">\n        <form class=\"form-check\" name=\"addClientForm\" novalidate [formGroup]=\"addClientForm\" (ngSubmit)=\"addClient()\">\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <input class=\"form-control\" id=\"names\" type=\"text\" size=\"40\" formControlName=\"names\" pInputText>\n                <label for=\"names\">Names</label>\n              </span>\n          </div>\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <input class=\"form-control\" id=\"surname\" type=\"text\" size=\"40\" formControlName=\"surname\" pInputText>\n                <label for=\"surname\">Surname</label>\n              </span>\n          </div>\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <p-inputMask formControlName=\"phoneNumber\" id=\"phoneNumber\" size=\"40\" mask=\"9999-999999\"></p-inputMask>\n                <label for=\"phoneNumber\">Phone Number</label>\n              </span>\n          </div>\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <input class=\"form-control\" id=\"email\" type=\"text\" size=\"40\" formControlName=\"email\" pInputText>\n                <label for=\"email\">Email</label>\n              </span>\n          </div>\n          <div class=\"form-group\">\n            <label for=\"gender\">Gender</label>\n            <p-selectButton [options]=\"genders\" class=\"form-control\" id=\"gender\" type=\"text\" size=\"20\" formControlName=\"gender\"></p-selectButton>\n          </div>\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <p-calendar id=\"dob\" size=\"40\" formControlName=\"dob\" [monthNavigator]=\"true\" [yearNavigator]=\"true\" yearRange=\"1920:2000\"></p-calendar>\n                <label for=\"dob\">Date of Birth</label>\n              </span>\n          </div>\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <textarea class=\"form-control\" [rows]=\"5\" id=\"address\" type=\"text\" size=\"40\" formControlName=\"address\" pInputTextarea></textarea>\n                <label for=\"address\">Address</label>\n              </span>\n          </div>\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <input class=\"form-control\" id=\"username\" type=\"text\" size=\"40\" formControlName=\"userName\" pInputText>\n                <label for=\"username\">Username</label>\n              </span>\n          </div>\n          <div class=\"form-group\">\n              <span class=\"ui-float-label\">\n                <textarea class=\"form-control\" [rows]=\"5\" id=\"services\" type=\"text\" size=\"40\" formControlName=\"services\" pInputTextarea></textarea>\n                <label for=\"services\">Services</label>\n              </span>\n          </div>\n          <button pButton class=\"btn btn-primary\" type=\"submit\" label=\"Add\"></button>\n        </form>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>\n\n<!--<app-add-edit-client [client]=\"{ names: 'hello', surname: 'there'}\"></app-add-edit-client>-->\n"
 
 /***/ }),
 
@@ -926,6 +926,8 @@ var ClientsComponent = (function () {
         this.services = new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormControl"]('');
         this.temperature = new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormControl"]('');
         this.dateOfTakingTemperature = new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormControl"]('');
+        this.weight = new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormControl"]('');
+        this.dateOfTakingWeight = new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormControl"]('');
         this.genders = [];
         this.genders.push({ label: 'Male', value: 'M' });
         this.genders.push({ label: 'Female', value: 'F' });
@@ -949,6 +951,10 @@ var ClientsComponent = (function () {
             dateOfTakingTemperature: this.dateOfTakingTemperature,
             temperature: this.temperature
         });
+        this.addWeightForm = this.formBuilder.group({
+            dateOfTakingWeight: this.dateOfTakingWeight,
+            weight: this.weight
+        });
     };
     ClientsComponent.prototype.getClients = function () {
         var _this = this;
@@ -968,7 +974,7 @@ var ClientsComponent = (function () {
             }, function (error) { return console.log(error); });
         }
     };
-    ClientsComponent.prototype.enterTemperature = function (client) {
+    ClientsComponent.prototype.enterClientRelatedData = function (client) {
         this.client = client;
     };
     ClientsComponent.prototype.cancelEditing = function () {
@@ -995,11 +1001,20 @@ var ClientsComponent = (function () {
             _this.toast.setMessage('Client added successfully.', 'success');
         }, function (error) { return console.log(error); });
     };
+    ClientsComponent.prototype.addClientWeight = function (client) {
+        var weight = new __WEBPACK_IMPORTED_MODULE_5__data_model__["e" /* Weight */]();
+        weight.date = this.addWeightForm.value.dateOfTakingWeight;
+        weight.weight = this.addWeightForm.value.weight;
+        if (!this.client.weights || this.client.weights.length === 0) {
+            this.client.weights = [];
+        }
+        this.client.weights.push(weight);
+        this.editClient(this.client);
+    };
     ClientsComponent.prototype.addClientTemperature = function (client) {
         var temperature = new __WEBPACK_IMPORTED_MODULE_5__data_model__["d" /* Temperature */]();
         temperature.date = this.addTemperatureForm.value.dateOfTakingTemperature;
         temperature.temperature = this.addTemperatureForm.value.temperature;
-        console.log('hatali tarih: ', temperature.date);
         if (!this.client.temperatures || this.client.temperatures.length === 0) {
             this.client.temperatures = [];
         }
@@ -1031,6 +1046,7 @@ var _a, _b, _c, _d;
 /* unused harmony export Carer */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Bill; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return Temperature; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return Weight; });
 
 var Client = (function () {
     function Client() {
@@ -1067,6 +1083,12 @@ var Temperature = (function () {
     function Temperature() {
     }
     return Temperature;
+}());
+
+var Weight = (function () {
+    function Weight() {
+    }
+    return Weight;
 }());
 
 //# sourceMappingURL=data-model.js.map
@@ -1576,7 +1598,7 @@ var _a, _b, _c, _d;
 /***/ "../../../../../client/app/reports/reports.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-loading [condition]=\"isLoading\"></app-loading>\n\n<app-toast [message]=\"toast.message\"></app-toast>\n\n<div class=\"card\" *ngIf=\"!isLoading\">\n  <div>\n    <p-dropdown [options]=\"clientSelectItems\" [(ngModel)]=\"selectedClient\" placeholder=\"Please select a Client\" [style]=\"{'width':'250px'}\">\n    </p-dropdown>\n  </div>\n  <button (click)=\"generateTemperatureReport()\" formnovalidate>Show Temperature Report</button>\n  <p-chart type=\"line\" [data]=\"data\" [options]=\"options\"></p-chart>\n</div>\n"
+module.exports = "<app-loading [condition]=\"isLoading\"></app-loading>\n\n<app-toast [message]=\"toast.message\"></app-toast>\n\n<div class=\"card\" *ngIf=\"!isLoading\">\n  <div>\n    <p-dropdown [options]=\"clientSelectItems\" [(ngModel)]=\"selectedClient\" placeholder=\"Please select a Client\" [style]=\"{'width':'250px'}\">\n    </p-dropdown>\n  </div>\n  <button (click)=\"generateTemperatureReport()\" formnovalidate>Show Temperature Report</button>\n  <button (click)=\"generateWeightReport()\" formnovalidate>Show Weight Report</button>\n  <p-chart type=\"line\" [data]=\"data\" [options]=\"options\"></p-chart>\n</div>\n"
 
 /***/ }),
 
@@ -1673,6 +1695,50 @@ var ReportsComponent = (function () {
     ReportsComponent.prototype.getClients = function () {
         var _this = this;
         this.clientService.getClients().subscribe(function (data) { return _this.clients = data; }, function (error) { return console.log(error); }, function () { return _this.fillClientSelectItems(); });
+    };
+    ReportsComponent.prototype.generateWeightReport = function () {
+        var weightData = [];
+        this.selectedClient.weights.forEach(function (t) {
+            var x = __WEBPACK_IMPORTED_MODULE_5_moment__(t.date);
+            weightData.push({ x: t.date, y: t.weight });
+        });
+        console.log(weightData);
+        this.data = {
+            labels: [new Date(2017, 8), new Date(2017, 9), new Date(2017, 10), new Date(2017, 11)],
+            datasets: [
+                {
+                    label: 'Weight',
+                    data: weightData
+                }
+            ]
+        };
+        this.options = {
+            title: {
+                display: true,
+                text: 'Weight',
+                fontSize: 16
+            },
+            legend: {
+                position: 'bottom'
+            },
+            responsive: true,
+            scales: {
+                xAxes: [{
+                        type: 'time',
+                        time: {
+                            unit: 'month',
+                            tooltipFormat: 'lll',
+                        }
+                    }],
+                yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'value'
+                        }
+                    }]
+            }
+        };
     };
     ReportsComponent.prototype.generateTemperatureReport = function () {
         var temperatureData = [];

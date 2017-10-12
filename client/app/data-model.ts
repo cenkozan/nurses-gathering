@@ -13,6 +13,7 @@ export class Client {
   userName: string;
   services: string;
   temperatures: Temperature[];
+  weights: Weight[];
 }
 
 export class Appointment {
@@ -48,4 +49,9 @@ export class Bill {
 export class Temperature {
   date: Date;
   temperature: number;
+}
+
+export class Weight {
+  date: Date;
+  weight: number;
 }

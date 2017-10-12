@@ -4,7 +4,7 @@ import { ToastComponent } from '../shared/toast/toast.component';
 import { SelectItem } from 'primeng/primeng';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Http } from '@angular/http';
-import { Client, Temperature } from '../data-model';
+import { Client, Temperature, Weight } from '../data-model';
 
 @Component({
   selector: 'app-clients',
@@ -23,6 +23,7 @@ export class ClientsComponent implements OnInit {
 
   addClientForm: FormGroup;
   addTemperatureForm: FormGroup;
+  addWeightForm: FormGroup;
 
   names = new FormControl('');
   surname = new FormControl('');
@@ -36,6 +37,9 @@ export class ClientsComponent implements OnInit {
 
   temperature = new FormControl('');
   dateOfTakingTemperature = new FormControl('');
+
+  weight = new FormControl('');
+  dateOfTakingWeight = new FormControl('');
 
   constructor(private clientService: ClientService,
               private formBuilder: FormBuilder,
@@ -65,6 +69,10 @@ export class ClientsComponent implements OnInit {
       dateOfTakingTemperature: this.dateOfTakingTemperature,
       temperature: this.temperature
     });
+    this.addWeightForm = this.formBuilder.group({
+      dateOfTakingWeight: this.dateOfTakingWeight,
+      weight: this.weight
+    });
   }
 
   getClients() {
@@ -93,7 +101,7 @@ export class ClientsComponent implements OnInit {
     }
   }
 
-  enterTemperature(client) {
+  enterClientRelatedData(client) {
     this.client = client;
   }
 
@@ -128,11 +136,21 @@ export class ClientsComponent implements OnInit {
     );
   }
 
+  addClientWeight(client) {
+    const weight = new Weight();
+    weight.date = this.addWeightForm.value.dateOfTakingWeight;
+    weight.weight = this.addWeightForm.value.weight;
+    if (!this.client.weights || this.client.weights.length === 0) {
+      this.client.weights = [];
+    }
+    this.client.weights.push(weight);
+    this.editClient(this.client);
+  }
+
   addClientTemperature(client) {
     const temperature = new Temperature();
     temperature.date = this.addTemperatureForm.value.dateOfTakingTemperature;
     temperature.temperature = this.addTemperatureForm.value.temperature;
-    console.log('hatali tarih: ', temperature.date);
     if (!this.client.temperatures || this.client.temperatures.length === 0) {
       this.client.temperatures = [];
     }
