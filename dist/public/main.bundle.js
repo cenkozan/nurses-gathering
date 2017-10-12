@@ -1748,7 +1748,7 @@ var ReportsComponent = (function () {
         this.options = {
             title: {
                 display: true,
-                text: 'Weight',
+                text: 'Blood Pressure',
                 fontSize: 16
             },
             legend: {
