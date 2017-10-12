@@ -4,7 +4,7 @@ import { ToastComponent } from '../shared/toast/toast.component';
 import { SelectItem } from 'primeng/primeng';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Http } from '@angular/http';
-import { Client, Temperature, Weight } from '../data-model';
+import { Client, Temperature, Weight, BloodPressure } from '../data-model';
 
 @Component({
   selector: 'app-clients',
@@ -24,6 +24,7 @@ export class ClientsComponent implements OnInit {
   addClientForm: FormGroup;
   addTemperatureForm: FormGroup;
   addWeightForm: FormGroup;
+  addBloodPressureForm: FormGroup;
 
   names = new FormControl('');
   surname = new FormControl('');
@@ -40,6 +41,10 @@ export class ClientsComponent implements OnInit {
 
   weight = new FormControl('');
   dateOfTakingWeight = new FormControl('');
+
+  systolic = new FormControl('');
+  diastolic = new FormControl('');
+  dateOfTakingBloodPressure = new FormControl('');
 
   constructor(private clientService: ClientService,
               private formBuilder: FormBuilder,
@@ -72,6 +77,11 @@ export class ClientsComponent implements OnInit {
     this.addWeightForm = this.formBuilder.group({
       dateOfTakingWeight: this.dateOfTakingWeight,
       weight: this.weight
+    });
+    this.addBloodPressureForm = this.formBuilder.group({
+      dateOfTakingBloodPressure: this.dateOfTakingBloodPressure,
+      systolic: this.systolic,
+      diastolic: this.diastolic
     });
   }
 
@@ -134,6 +144,18 @@ export class ClientsComponent implements OnInit {
       },
       error => console.log(error)
     );
+  }
+
+  addBloodPressure(client) {
+    const bloodPressure = new BloodPressure();
+    bloodPressure.date = this.addBloodPressureForm.value.dateOfTakingBloodPressure;
+    bloodPressure.systolic = this.addBloodPressureForm.value.systolic;
+    bloodPressure.diastolic = this.addBloodPressureForm.value.diastolic;
+    if (!this.client.bloodPressures || this.client.bloodPressures.length === 0) {
+      this.client.bloodPressures = [];
+    }
+    this.client.bloodPressures.push(bloodPressure);
+    this.editClient(this.client);
   }
 
   addClientWeight(client) {

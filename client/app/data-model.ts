@@ -14,6 +14,7 @@ export class Client {
   services: string;
   temperatures: Temperature[];
   weights: Weight[];
+  bloodPressures: BloodPressure[];
 }
 
 export class Appointment {
@@ -54,4 +55,10 @@ export class Temperature {
 export class Weight {
   date: Date;
   weight: number;
+}
+
+export class BloodPressure {
+  date: Date;
+  systolic: number;
+  diastolic: number;
 }

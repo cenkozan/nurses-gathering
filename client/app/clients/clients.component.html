@@ -44,6 +44,7 @@
           <button class="btn btn-sm btn-danger" (click)="deleteClient(client)"><i class="fa fa-trash"></i> Delete</button>
           <button class="btn btn-sm" data-toggle="modal" data-target="#addTemperatureModal" (click)="enterClientRelatedData(client)"><i class="fa fa-thermometer"></i> Enter temperature</button>
           <button class="btn btn-sm" data-toggle="modal" data-target="#addWeightModal" (click)="enterClientRelatedData(client)"><i class="fa fa-balance-scale"></i> Enter weight</button>
+          <button class="btn btn-sm" data-toggle="modal" data-target="#addBloodPressureModal" (click)="enterClientRelatedData(client)"><i class="fa fa-heartbeat"></i> Enter blood pressure</button>
         </td>
       </tr>
       </tbody>
@@ -82,6 +83,43 @@
       </tr>
       </tbody>
     </table>
+  </div>
+</div>
+
+<div id="addBloodPressureModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">x</button>
+        <h4 class="modal-title">Enter Blood Pressure</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-check" name="addBloodPressureForm" novalidate [formGroup]="addBloodPressureForm" (ngSubmit)="addBloodPressure(client)">
+          <div class="form-group">
+              <span class="ui-float-label">
+                <input class="form-control" id="systolic" size="10" type="number" formControlName="systolic" pInputText>
+                <label for="systolic">Systolic</label>
+              </span>
+          </div>
+          <div class="form-group">
+              <span class="ui-float-label">
+                <input class="form-control" id="diastolic" size="10" type="number" formControlName="diastolic" pInputText>
+                <label for="diastolic">Diastolic</label>
+              </span>
+          </div>
+          <div class="form-group">
+              <span class="ui-float-label">
+                <p-calendar id="dateOfTakingBloodPressure" size="40" name="dateOfTakingBloodPressure" formControlName="dateOfTakingBloodPressure"></p-calendar>
+                <label for="dateOfTakingBloodPressure">Date of Taking Blood Pressure</label>
+              </span>
+          </div>
+          <button pButton class="btn btn-primary" type="submit" label="Add"></button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
   </div>
 </div>
 
