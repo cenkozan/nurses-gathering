@@ -79,6 +79,51 @@ export class ReportsComponent implements OnInit {
     );
   }
 
+  generateWeightReport() {
+    const weightData = [];
+    this.selectedClient.weights.forEach(t => {
+      const x = moment(t.date);
+      weightData.push({x: t.date, y: t.weight});
+    });
+    console.log(weightData);
+    this.data = {
+      labels: [new Date(2017, 8), new Date(2017, 9), new Date(2017, 10), new Date(2017, 11)],
+      datasets: [
+        {
+          label: 'Weight',
+          data: weightData
+        }
+      ]
+    };
+    this.options = {
+      title: {
+        display: true,
+        text: 'Weight',
+        fontSize: 16
+      },
+      legend: {
+        position: 'bottom'
+      },
+      responsive: true,
+      scales: {
+        xAxes: [{
+          type: 'time',
+          time: {
+            unit: 'month',
+            tooltipFormat: 'lll',
+          }
+        }],
+        yAxes: [{
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'value'
+          }
+        }]
+      }
+    };
+  }
+
   generateTemperatureReport() {
     const temperatureData = [];
     this.selectedClient.temperatures.forEach(t => {
