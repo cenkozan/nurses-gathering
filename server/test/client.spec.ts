@@ -96,6 +96,20 @@ describe('Clients', () => {
       });
     });
 
+    it('should add users temperature', done => {
+      const client = new Client({names: 'Dave', surname: 'David', gender: 'M', dob: '14 June 1949',
+        email: 'cokahraman@hotmail.com', address: '141 NorthWood Way, London, HA6 1RF', userName: 'davedavid'});
+      client.save((error, newClient) => {
+        chai.request(app)
+          .put(`/api/client/${newClient.id}`)
+          .send({ temperatures: [{date: new Date(), weight: 50}] })
+          .end((err, res) => {
+            res.should.have.status(200);
+            done();
+          });
+      });
+    });
+
     it('should delete a user by its id', done => {
       const client = new Client({ userName: 'User', email: 'user@example.com' });
       client.save((error, newClient) => {

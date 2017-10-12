@@ -87,6 +87,19 @@ describe('Clients', function () {
                 });
             });
         });
+        it('should add users temperature', function (done) {
+            var client = new client_1.default({ names: 'Dave', surname: 'David', gender: 'M', dob: '14 June 1949',
+                email: 'cokahraman@hotmail.com', address: '141 NorthWood Way, London, HA6 1RF', userName: 'davedavid' });
+            client.save(function (error, newClient) {
+                chai.request(app_1.app)
+                    .put("/api/client/" + newClient.id)
+                    .send({ temperatures: [{ date: new Date(), weight: 50 }] })
+                    .end(function (err, res) {
+                    res.should.have.status(200);
+                    done();
+                });
+            });
+        });
         it('should delete a user by its id', function (done) {
             var client = new client_1.default({ userName: 'User', email: 'user@example.com' });
             client.save(function (error, newClient) {

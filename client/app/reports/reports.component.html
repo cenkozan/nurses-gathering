@@ -3,5 +3,10 @@
 <app-toast [message]="toast.message"></app-toast>
 
 <div class="card" *ngIf="!isLoading">
-  <p-chart type="line" [data]="data"></p-chart>
+  <div>
+    <p-dropdown [options]="clientSelectItems" [(ngModel)]="selectedClient" placeholder="Please select a Client" [style]="{'width':'250px'}">
+    </p-dropdown>
+  </div>
+  <button (click)="generateTemperatureReport()" formnovalidate>Show Temperature Report</button>
+  <p-chart type="line" [data]="data" [options]="options"></p-chart>
 </div>

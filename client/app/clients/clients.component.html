@@ -40,7 +40,9 @@
         <td>{{client.userName}}</td>
         <td>{{client.services}}</td>
         <td>
-          <button class="btn btn-sm btn-warning" (click)="enableEditing(client)"><i class="fa fa-pencil"></i> Edit</button> <button class="btn btn-sm btn-danger" (click)="deleteClient(client)"><i class="fa fa-trash"></i> Delete</button>
+          <button class="btn btn-sm btn-warning" (click)="enableEditing(client)"><i class="fa fa-pencil"></i> Edit</button>
+          <button class="btn btn-sm btn-danger" (click)="deleteClient(client)"><i class="fa fa-trash"></i> Delete</button>
+          <button class="btn btn-sm" data-toggle="modal" data-target="#addTemperatureModal" (click)="enterTemperature(client)"><i class="fa fa-thermometer"></i> Enter temperature</button>
         </td>
       </tr>
       </tbody>
@@ -79,6 +81,37 @@
       </tr>
       </tbody>
     </table>
+  </div>
+</div>
+
+<div id="addTemperatureModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">x</button>
+        <h4 class="modal-title">Enter temperature</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-check" name="addTemperatureForm" novalidate [formGroup]="addTemperatureForm" (ngSubmit)="addClientTemperature(client)">
+          <div class="form-group">
+              <span class="ui-float-label">
+                <input class="form-control" id="temperature" size="10" type="number" min=30 max=50 step=1 formControlName="temperature" pInputText>
+                <label for="temperature">Temperature</label>
+              </span>
+          </div>
+          <div class="form-group">
+              <span class="ui-float-label">
+                <p-calendar id="dateOfTakingTemperature" size="40" name="dateOfTakingTemperature" formControlName="dateOfTakingTemperature"></p-calendar>
+                <label for="dateOfTakingTemperature">Date of Taking Temperature</label>
+              </span>
+          </div>
+          <button pButton class="btn btn-primary" type="submit" label="Add"></button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
   </div>
 </div>
 

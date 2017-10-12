@@ -4,7 +4,7 @@ import { ToastComponent } from '../shared/toast/toast.component';
 import { SelectItem } from 'primeng/primeng';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Http } from '@angular/http';
-import { Client } from '../data-model';
+import { Client, Temperature } from '../data-model';
 
 @Component({
   selector: 'app-clients',
@@ -13,16 +13,16 @@ import { Client } from '../data-model';
 })
 export class ClientsComponent implements OnInit {
 
-  client = {};
-  clients = [];
+  client:  Client;
+  clients: Client[];
   isLoading = true;
 
   isEditing = false;
 
   genders: SelectItem[];
 
-  editClientForm: FormGroup;
   addClientForm: FormGroup;
+  addTemperatureForm: FormGroup;
 
   names = new FormControl('');
   surname = new FormControl('');
@@ -34,6 +34,9 @@ export class ClientsComponent implements OnInit {
   userName = new FormControl('');
   services = new FormControl('');
 
+  temperature = new FormControl('');
+  dateOfTakingTemperature = new FormControl('');
+
   constructor(private clientService: ClientService,
               private formBuilder: FormBuilder,
               private http: Http,
@@ -42,6 +45,7 @@ export class ClientsComponent implements OnInit {
     this.genders.push({label: 'Male', value: 'M'});
     this.genders.push({label: 'Female', value: 'F'});
     this.genders.push({label: 'Other', value: 'O'});
+    this.clients = [];
   }
 
   ngOnInit() {
@@ -56,6 +60,10 @@ export class ClientsComponent implements OnInit {
       address: this.address,
       userName: this.userName,
       services: this.services,
+    });
+    this.addTemperatureForm = this.formBuilder.group({
+      dateOfTakingTemperature: this.dateOfTakingTemperature,
+      temperature: this.temperature
     });
   }
 
@@ -83,6 +91,10 @@ export class ClientsComponent implements OnInit {
         error => console.log(error)
       );
     }
+  }
+
+  enterTemperature(client) {
+    this.client = client;
   }
 
   cancelEditing() {
@@ -116,4 +128,15 @@ export class ClientsComponent implements OnInit {
     );
   }
 
+  addClientTemperature(client) {
+    const temperature = new Temperature();
+    temperature.date = this.addTemperatureForm.value.dateOfTakingTemperature;
+    temperature.temperature = this.addTemperatureForm.value.temperature;
+    console.log('hatali tarih: ', temperature.date);
+    if (!this.client.temperatures || this.client.temperatures.length === 0) {
+      this.client.temperatures = [];
+    }
+    this.client.temperatures.push(temperature);
+    this.editClient(this.client);
+  }
 }

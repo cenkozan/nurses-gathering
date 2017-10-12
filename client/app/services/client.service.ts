@@ -32,4 +32,8 @@ export class ClientService {
     return this.http.delete(`/api/client/${client._id}`, this.options);
   }
 
+  // addTemperature(client): Observable<any> {
+  //   return this.http.delete(`/api/client/${client._id}`, this.options);
+  // }
+
 }

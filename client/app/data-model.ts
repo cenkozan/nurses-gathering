@@ -12,6 +12,7 @@ export class Client {
   address: string;
   userName: string;
   services: string;
+  temperatures: Temperature[];
 }
 
 export class Appointment {
@@ -42,4 +43,9 @@ export class Carer {
 export class Bill {
   constructor(private userName: string, private hours: number, private rate: number, private total: number, private expense: boolean) {
   }
+}
+
+export class Temperature {
+  date: Date;
+  temperature: number;
 }

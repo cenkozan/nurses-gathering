@@ -13,10 +13,12 @@ var clientSchema = new mongoose.Schema({
     dob: Date,
     address: String,
     userName: String,
-    services: String
+    services: String,
     // appointments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Appointment' }]
     // contacts: [{name: String, phone: Number, address: String}],
-    // medicines: [{name: String, dose: String}],
+    bloodPressures: [{ date: Date, systolic: Number, diastolic: Number }],
+    weights: [{ date: Date, weight: Number }],
+    temperatures: [{ date: Date, temperature: Number }]
 });
 var Client = mongoose.model('Client', clientSchema);
 exports.default = Client;
