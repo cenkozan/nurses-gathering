@@ -17,8 +17,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(morgan('dev'));
 
-const uristring = process.env.MONGOLAB_URI;
-mongoose.connect(uristring, function (err, response) {
+const uristring = 'mongodb://heroku_z5c443nc:v61gthvfshbiiroldtvaak3u8m@ds155644.mlab.com:55644/heroku_z5c443nc';
+mongoose.createConnection(uristring, function (err, response) {
   if (err) {
     console.log ('ERROR connecting to: ' + uristring + '. ' + err);
   } else {
