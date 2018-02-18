@@ -1,9 +1,9 @@
 import * as mongoose from 'mongoose';
 
 const carerSchema = new mongoose.Schema({
-  names: String,
-  surname: String,
-  phoneNumber: String,
+  firstName: String,
+  lastName: String,
+  phone: String,
   email: String,
   gender: {
     type: String,
@@ -11,8 +11,10 @@ const carerSchema = new mongoose.Schema({
   },
   dob: Date,
   // appointments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Appointment' }],
-  address: String,
-  userName: String
+  addressLine1: String,
+  addressLine2: String,
+  city: String,
+  postcode: String
 });
 
 const Carer = mongoose.model('Carer', carerSchema);

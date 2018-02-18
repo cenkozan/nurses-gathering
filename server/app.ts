@@ -17,11 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(morgan('dev'));
 
-if (process.env.NODE_ENV === 'test') {
-  mongoose.connect(process.env.MONGODB_TEST_URI);
-} else {
-  mongoose.connect(process.env.MONGODB_URI);
-}
+mongoose.connect('mongodb://localhost:27017/test');
 
 const db = mongoose.connection;
 (<any>mongoose).Promise = global.Promise;

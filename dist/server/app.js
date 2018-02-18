@@ -15,12 +15,7 @@ app.use('/', express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan('dev'));
-if (process.env.NODE_ENV === 'test') {
-    mongoose.connect(process.env.MONGODB_TEST_URI);
-}
-else {
-    mongoose.connect(process.env.MONGODB_URI);
-}
+mongoose.connect('mongodb://localhost:27017/test');
 var db = mongoose.connection;
 mongoose.Promise = global.Promise;
 mongoose.connection.on('error', function (err) { });
