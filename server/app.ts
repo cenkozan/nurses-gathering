@@ -17,29 +17,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(morgan('dev'));
 
-mongoose.connect('mongodb://heroku_z5c443nc:v61gthvfshbiiroldtvaak3u8m@ds155644.mlab.com:55644/heroku_z5c443nck');
+const uristring = process.env.MONGOLAB_URI;
+mongoose.connect(uristring, function (err, response) {
+  if (err) {
+    console.log ('ERROR connecting to: ' + uristring + '. ' + err);
+  } else {
+    setRoutes(app);
 
-const db = mongoose.connection;
-(<any>mongoose).Promise = global.Promise;
-
-mongoose.connection.on('error', function(err){});
-
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-  console.log('Connected to MongoDB');
-
-  setRoutes(app);
-
-  app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname, '../public/index.html'));
-  });
-
-  if (!module.parent) {
-    app.listen(app.get('port'), () => {
-      console.log('Angular Full Stack listening on port ' + app.get('port'));
+    app.get('/*', function(req, res) {
+      res.sendFile(path.join(__dirname, '../public/index.html'));
     });
-  }
 
+    if (!module.parent) {
+      app.listen(app.get('port'), () => {
+        console.log('Angular Full Stack listening on port ' + app.get('port'));
+      });
+    }
+  }
 });
 
 export { app };
