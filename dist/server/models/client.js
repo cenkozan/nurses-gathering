@@ -6,10 +6,7 @@ var clientSchema = new mongoose.Schema({
     lastName: String,
     phone: String,
     email: String,
-    gender: {
-        type: String,
-        enum: ['M', 'F', 'O']
-    },
+    gender: String,
     dob: Date,
     addressLine1: String,
     addressLine2: String,

@@ -6,10 +6,7 @@ var carerSchema = new mongoose.Schema({
     lastName: String,
     phone: String,
     email: String,
-    gender: {
-        type: String,
-        enum: ['M', 'F', 'O']
-    },
+    gender: String,
     dob: Date,
     // appointments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Appointment' }],
     addressLine1: String,
